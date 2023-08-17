@@ -1,0 +1,367 @@
+{% extends 'Campingbenin/base.html' %}
+ {% load static %}
+
+	{% block style %}  
+
+	<style>
+     
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card img {
+  transition: transform 0.5s;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+    
+.card:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+} 
+     
+.card:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    {% comment %} /* background-image: url(./images/g1.png); */ {% endcomment %}
+    background-size: cover; 
+    opacity: 0.5;
+    transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  } 
+    
+  .card:hover::before,
+  .card:hover::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .card:hover h2 {
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .card:hover p {
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  .card:hover i {
+    color: #fff;
+    font-size: 40px;
+  }
+  
+  .card:hover h2,
+  .card:hover p,
+  .card:hover i {
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .card h2,
+  .card p,
+  .card i {
+    opacity: 0;
+    transform: translateY(20px);
+    text-align: center;
+  }
+  
+  .card h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .card p {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .card i {
+    font-size: 30px;
+    margin: 0 10px;
+  }
+          
+	</style>
+	
+{% endblock style %}
+
+  {% block content %}
+
+{% include  'Campingbenin/headers.html' %} 
+<main>  			
+    <!-- Section Gallary Start -->
+    {% comment %} <h4>Le camping, c'est l'occasion de renouer avec la nature,
+       de se ressourcer et de se créer des souvenirs inoubliables en famille ou entre amis.</h4> {% endcomment %}
+    <section class="gallary" id="gallary">
+        <div class="container">
+          <div class="main-txt">
+          <center>  <h1 style="margin-top:3cm;">Galerie</h1> </center>    
+          </div> 
+          <div class="row" style="margin-top: 30px; ">
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src=" {% static './images/ima_128.jpg' %} " alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Avec nous des belles pauses </div>
+                        <a href="#" class="read-more">....</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src="{% static './images/ima_130.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Avec nous des belles pauses </div>
+                        <a href="#" class="read-more">...</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src="{% static './images/ima_107.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Une bouchée de ce dessert et vous serez conquis</div>
+                        <a href="#" class="read-more">.....</a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+          <div class="row" style="margin-top: 30px;">
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src="{% static './images/ima_73.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Une sortie pour des découvertes</div>
+                        <a href="#" class="read-more">.....</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src="{% static './images/ima_147.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Avec nous des belles pauses </div>
+                        <a href="#" class="read-more">.....</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-3 py-md-0" style="margin-bottom: 20px;">
+                <div class="card box21">
+                    <img src="{% static './images/ima_185.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Au coeur du PaintBall game</div>
+                        <a href="#" class="read-more">.....</a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+            <div class="row" style="margin-top: 30px;">
+          <div class="col-md-4 py-3 py-md-0">
+              <div class="card box21">
+                  <img src="{% static './images/ima_72.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">Les merveilles dans le nord du Bénin</div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0">
+              <div class="card box21">
+                  <img src="{% static './images/ima_137.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">La patience à travers la chasse </div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0" style="margin-bottom: 20px;">
+              <div class="card box21">
+                  <img src="{% static './images/ima_133.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">La danse sur vous</div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+      </div> 
+
+        <div class="row" style="margin-top: 30px;">
+          <div class="col-md-4 py-3 py-md-0">
+              <div class="card box21">
+                  <img src="{% static './images/ima_138.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">Une pause avec mon Bingo</div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0">
+              <div class="card box21">
+                  <img src="{% static './images/ima_37.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">La santé avant tout, donc le sport </div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0" style="margin-bottom: 20px;">
+              <div class="card box21">
+                  <img src="{% static './images/im4.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">Pour un bon weekend bien detendu </div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+      </div> 
+      <div class="row" style="margin-top: 30px;">
+        <div class="col-md-4 py-3 py-md-0">
+            <div class="card box21">
+                <img src="{% static './images/im3.jpg' %}" alt="" height="230px">
+                <div class="box-content">
+                    <div class="title">CampingBenin</div>
+                    <div class="description">Pour un bon weekend bien detendu  </div>
+                    <a href="#" class="read-more">.....</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 py-3 py-md-0">
+            <div class="card box21">
+                <img src="{% static './images/ima_165.jpg' %}" alt="" height="230px">
+                <div class="box-content">
+                    <div class="title">CampingBenin</div>
+                    <div class="description">Avec une saveur unique de notre jus, vous passez une bonne journée </div>
+                    <a href="#" class="read-more">.....</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 py-3 py-md-0" style="margin-bottom: 20px;">
+            <div class="card box21">
+                <img src="{% static './images/ima_162.jpg' %}" alt="" height="230px">
+                <div class="box-content">
+                    <div class="title">CampingBenin</div>
+                    <div class="description">On apprend  aussi à se connaître de manière plus profonde,juste en méditant sur soi.</div>
+                    <a href="#" class="read-more">.....</a>
+                </div>
+            </div>
+        </div>
+    </div>  
+     <div class="row" style="margin-top: 30px;">
+          <div class="col-md-4 py-3 py-md-0">
+              <div class="card box21">
+                  <img src="{% static './images/ima_23.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">Les idées autour du feu </div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0">
+              <div class="card box21">
+                  <img src="{% static './images/ima_168.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">Trop cool le cinema la nuit</div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0" style="margin-bottom: 20px;">
+              <div class="card box21">
+                  <img src="{% static './images/ima_167.jpg' %}" alt="" height="230px">
+                  <div class="box-content">
+                      <div class="title">CampingBenin</div>
+                      <div class="description">La belle vue et ambition dans la nuit</div>
+                      <a href="#" class="read-more">.....</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+        </div>
+    <a  type="button" href="{% url 'view' %}" id="reserver-btn"  style="text-decoration: none; float:right; width:100px;margin:20px;"> <center>Voir Plus</center>  </a>
+
+      </section>
+      <!-- Section Gallary End -->
+       
+
+
+    </main>  
+ {% include  'Campingbenin/footer.html' %}  
+		
+	{% endblock content %}
+
+
+	{% block script %}  
+  <script>
+    
+    const slides = document.querySelectorAll('.slide');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    const setActiveSlide = (index) => {
+      slides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.add('active-slide');
+        } else {
+          slide.classList.remove('active-slide');
+        }
+      });
+    };
+    
+    const setActiveThumbnail = (index) => {
+      thumbnails.forEach((thumbnail, i) => {
+        if (i === index) {
+          thumbnail.classList.add('active-thumbnail');
+        } else {
+          thumbnail.classList.remove('active-thumbnail');
+        }
+      });
+    };
+    
+    const initCarousel = () => {
+      setActiveSlide(1);
+      setActiveThumbnail(1);
+      
+      thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
+          setActiveSlide(index);
+          setActiveThumbnail(index);
+        });
+      });
+    };
+    
+    initCarousel();
+    
+  </script>
+	{% endblock script %}

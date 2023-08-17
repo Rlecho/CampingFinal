@@ -1,0 +1,158 @@
+/*-----------------------------------
+#222831;
+    1 - Hero #f9f9f9 #f1f2f3; #30a1c0; #6689d8 #2aa6bd; #3a3a85; #023b8e #2ea2bf #8b8d49 #8677e7
+------------------------------------*/
+ .hero {
+  background: url('/assets/Background-image.png');
+  background: url('campingBenin/assets/Background-image');
+  background-size: cover;
+  background-color: #000000; 
+   opacity: 0.8; 
+   overflow: hidden; 
+  position: relative; 
+  
+} 
+
+.hero .container {
+  position: relative;
+
+  z-index:0;
+  /* background-color: #222831; */
+}
+
+.hero .slide-content {
+  min-height: 600px;
+  color:#000000;
+}
+
+/* .hero .slide-content span {
+  color: #ee1515;
+} */
+
+.hero .slide-content h2 {
+  color: #000000;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.56);
+  text-transform: uppercase;
+  -webkit-transform: matrix(0.93128, 0, 0, 0.93128, 0, 0);
+          transform: matrix(0.93128, 0, 0, 0.93128, 0, 0);
+  font-weight: bold;
+}
+.hero .card{
+  
+  color: #1e47cc;
+  font-weight: bold;
+  border-radius: 15px;
+  height: 150px;
+}
+.hero .card h3{
+  padding-top:150x;
+  color: #1e47cc;
+  font-weight: bold;
+}
+.hero .card .card-body{
+  margin-bottom:150x;
+  height: 150px;
+  
+}
+
+.hero .card .card-body p{
+  position: absolute;
+  top: 20px;
+  
+}
+
+.hero .slide-content p {
+  /* color: #170936; */
+  -webkit-transform: matrix(0.93128, 0, 0, 0.93128, 0, 0);
+          transform: matrix(0.93128, 0, 0, 0.93128, 0, 0);
+  padding: 35px 0 35px 30px;
+  /* background-color: rgba(255, 255, 255, 0.51); */
+  border-top-right-radius: 100px;
+  border-bottom-left-radius: 10px;
+  margin-bottom: 0;
+  color: #1e47cc;
+  font-weight: bold;
+}
+
+/* .hero .slide-content .btn {
+  margin-top: 50px;
+}
+
+.hero .slide-content .btn:last-child {
+  margin-left: 30px;
+} */
+
+.hero .arr-left,
+.hero .arr-right {
+  font-size: 3rem;
+  display: block;
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  top: 85%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  z-index: 9;
+}
+
+.hero .arr-left:hover,
+.hero .arr-right:hover {
+  cursor: pointer;
+}
+
+.hero .arr-right {
+  right: 15px;
+}
+
+.hero .diag-bg {
+  width: 100%;
+  height: 100%;
+  -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
+          clip-path: polygon(0 0, 100% 100%, 100% 0);
+  /* background-color: rgba(240, 0, 255, 0.1); */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.hero .texture {
+  width: 100%;
+  height: 100%;
+   background: url("../images/hero-texture.png") no-repeat center; 
+  background-size: cover;
+  opacity: 0.4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.hero::after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  /* background-color: rgba(255, 255, 255, 0.02); */
+  position: absolute;
+  left: 0;
+  bottom: 29%;
+}
+
+.hero::before {
+  content: "";
+  width: 100%;
+  height: 2px;
+  /* background-color: rgba(255, 255, 255, 0.02); */
+  position: absolute;
+  left: 0;
+  bottom: 58%;
+}
+
+/*-----------------------------------
+
+span {
+  color: #fff;
+}
+
+
+

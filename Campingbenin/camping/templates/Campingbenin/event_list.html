@@ -1,0 +1,315 @@
+{% extends 'Campingbenin/base.html' %}
+{% load static %}
+{% block style %}  
+<style>    
+    .ri{
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: opacity 0.2s ease-in-out, transform 0.5s ease-in-out;
+    }
+    .slide-in-left {
+      opacity: 1;
+      transform: translateX(0);
+      transition: transform 2s ease-in-out;
+    }  
+    .card {
+      position: relative;
+      overflow: hidden;
+    }
+    .card img {
+      transition: transform 0.5s;
+    }
+    .card:hover img {
+      transform: scale(1.1);
+    }   
+    .card:hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0);
+    }   
+    .card:hover::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        {% comment %} /* background-image: url(./images/g1.png); */ {% endcomment %}
+        background-size: cover; 
+        opacity: 0.5;
+        transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }   
+      .card:hover::before,
+      .card:hover::after {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .card:hover h2 {
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      .card:hover p {
+        color: #fff;
+        margin-bottom: 20px;
+
+      }
+      .card:hover i {
+        color: #fff;
+        font-size: 40px;
+
+      }
+      .card:hover h3 {
+        {% comment %} color: #fff; {% endcomment %} 
+        opacity:0;
+
+        {% comment %} display:none; {% endcomment %}
+      }
+      .card:hover h2,
+      .card:hover p,
+      .card:hover i {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        transform: translateY(0);
+      } 
+      .card h2,
+      .card p,
+      .card i {
+        opacity: 0;
+        transform: translateY(20px);
+        text-align: center;
+      }
+      
+      .card h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+      }
+      
+      .card p {
+        font-size: 16px;
+        margin: 0;
+      }
+      .card i {
+        font-size: 30px;
+        margin: 0 10px;
+      }
+    body {
+      background-image: url("{% static './images/c.jpg' %}"); 
+      background-size: cover; 
+      background-repeat: no-repeat; 
+    }
+
+    .blink {
+      text-align: center;
+      display: inline-block;
+      border-radius:10px;
+      position:absolute;
+      bottom: 10px;
+      right: 10px;
+    }   
+    .blink p {
+      display: inline-block;
+      margin: 0;
+      padding: 20px;
+      font-size: 14px;
+      
+      color: #FFF;
+      {% comment %} /* background-color: #000; */ {% endcomment %}
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .scroll-box {
+      overflow: hidden;
+      position:absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .scroll-text {
+      white-space: nowrap;
+      display: inline-block;
+      animation: marquee 10s linear infinite;
+      font-size: 32px;
+      font-weight: 900px;
+      color: orange;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }	
+
+    #description {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 400px; /* ajustez la largeur maximale selon vos besoins */
+    }
+    
+</style>
+	
+{% endblock style %}
+
+
+{% block content %}
+ {% include  'Campingbenin/header.html' %}  
+
+  <section class="food_section layout_padding-bottom " style="margin-right:50px">
+   <div class="container">
+    <div class="heading_container">
+      <h2 style="color: #001042;">
+        Nos Events
+      </h2>
+    </div> 
+      <div class="filters-content ">
+        <div class="row grid " >
+        {% for event in events %}
+            <div class="col-sm-6 col-lg-4 all pizza fade-in">
+              <div class="box"> 
+                <div class="img-box">
+                  <img src="{% static 'images/p1.jpg' %}" alt="" height="930px"> 
+                </div>
+                  <div class="detail-box">
+                    <h5>
+                      {{ event.name }}
+                    </h5>
+                    <p id="description">
+                      {{ event.description }} 
+                    </p>
+                    <div class="options">
+                      <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Voir</button>
+                      <a href="reservation.html" type="button" id="reserver-btn" style="text-decoration: none;">
+                        Reserver
+                      </a>
+                    </div>
+                  </div>
+            </div>
+      </div>                                                           
+        {% endfor %}
+      
+    </div>
+  </div>
+  <div class="btn-box">
+    <a  type="button" href="reservation.html" id="reserver-btn"  style="text-decoration: none; text-align: center;"><span> Voir Plus</span>  </a>
+  </div>
+</div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+
+const description = document.getElementById('description');
+const text = description.textContent;
+if (text.length > 500) {
+  description.textContent = text.slice(0, 500) + '...';
+}
+
+  </script>
+	{% endblock script %}
+
+
+{% comment %} 
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ event.title }}</h1>
+  <img src="{{ Campingbenin\event\a1.jpeg}}" alt="{{ image.name }}" width="500">
+  <p>{{ event.description }}</p>
+{% endblock %}  {% endcomment %}
+
+
+Pour ajouter un effet de survol à une image qui change en une autre image, vous pouvez utiliser la pseudo-classe :hover en CSS et changer la valeur de l'attribut src de l'image en utilisant JavaScript.
+
+Voici un exemple de code HTML/CSS/JS qui illustre comment réaliser cet effet de survol :
+
+html
+Copy code
+<div class="image-container">
+  <img src="{% static './images/bar.jpeg' %}" alt="Image" class="img-fluid image-default">
+  <img src="{% static './images/bar-hover.jpeg' %}" alt="Image on hover" class="img-fluid image-hover">
+</div>
+Dans ce code HTML, nous avons deux images imbriquées dans une div parente. La première image est l'image par défaut qui sera affichée, et la seconde est l'image qui s'affichera au survol de la souris. Les deux images ont une classe CSS commune, img-fluid, qui leur donne une largeur maximale de 100%.
+
+Ensuite, nous allons ajouter du CSS pour cacher l'image de survol par défaut, en utilisant la pseudo-classe :hover. Nous allons également positionner les images de manière à ce qu'elles soient superposées :
+
+css
+Copy code
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-hover {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.image-container:hover .image-default {
+  display: none;
+}
+
+.image-container:hover .image-hover {
+  display: block;
+}
+Dans ce CSS, nous ajoutons la propriété position: relative à la div parente, et la propriété position: absolute à l'image de survol pour les positionner les images l'une au-dessus de l'autre. La propriété display: none est ajoutée à l'image de survol pour la cacher initialement.
+
+Ensuite, nous utilisons la pseudo-classe :hover sur la div parente pour cacher l'image par défaut et afficher l'image de survol à la place.
+
+Finalement, nous allons ajouter un peu de JavaScript pour précharger l'image de survol afin que l'effet de transition soit plus fluide :
+
+javascript
+Copy code
+const imageHover = new Image();
+imageHover.src = "{% static './images/bar-hover.jpeg' %}";
+Dans ce code JavaScript, nous créons un nouvel objet Image et nous définissons sa source (src) sur l'URL de l'image de survol. Cela préchargera l'image dans le cache du navigateur, ce qui permettra d'afficher l'image plus rapidement lors du survol.
+
+En résumé, voici le code CSS/JS complet :
+
+css
+Copy code
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-hover {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.image-container:hover .image-default {
+  display: none;
+}
+
+.image-container:hover .image-hover {
+  display: block;
+}
+javascript
+Copy code
+const imageHover = new Image();
+imageHover.src = "{% static './images/bar-hover.jpeg' %}";

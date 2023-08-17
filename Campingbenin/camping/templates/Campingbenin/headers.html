@@ -1,0 +1,93 @@
+{% load static %}
+{% comment %} <nav class="navbar navbar-expand-lg" id="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html" id="logo"> <img src="{% static 'images/log.PNG' %}" alt="" style="height: 80px; width: 100px;" ></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span><i class="fa-solid fa-bars"></i></span>
+      </button> 
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <center>
+        <ul class="navbar-nav me-auto " >
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'index'%}">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#event">Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#gallary">Gallerie</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">A propos</a>
+          </li>
+        </ul>
+      </center> {% endcomment %}
+      {% comment %} <div class="search">
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" placeholder="Search">
+          <button class="btn btn-primary" type="button">Search</button>
+        
+        </form></div> {% endcomment %}
+
+      {% comment %} </div>
+    </div>
+  </nav>
+ {% endcomment %}
+
+
+
+
+
+
+
+
+  <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top" style='background-color:#eee3e3'>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <div class="container"  style="background-color:;height:1cm;">
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+  
+          <a class="navbar-brand" href="" id="logo"> <img src="{% static 'images/CAMPING2023.png' %}" alt="" style="height: 79px; width: 80px;" ></a>
+
+         
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item active">    
+              <a class="nav-link" href="{% url 'event_list' %}" style="color: #023b8e;font-weight:bold;">Accueil</a>
+            </li>
+
+            <li class="nav-item">  
+              <a class="nav-link iii" href="{% url 'event_list' %}" style=" color: #023b8e;font-weight:bold;">Events</a>
+            </li>
+
+            <li class="nav-item">     
+              <a class="nav-link" href="{% url 'event_list' %}" style="color:#023b8e;font-weight:bold;">Nos Activités</a>
+            </li>
+
+            <li class="nav-item">    
+              <a class="nav-link" href="#gallary" style="color: #023b8e;font-weight:bold;">Galerie</a>
+            </li> 
+            {% comment %} <li class="nav-item">    
+              <a class="nav-link" href="{% url 'event_list' %}" style="color: #023b8e;font-weight:bold;">Temoignage</a>
+            </li> {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'event_list' %}" style=" color: #023b8e;font-weight:bold;">A propos</a>
+            </li>
+          </ul>
+   
+        
+        <div class="social text-gray">
+          <a href="https://www.facebook.com/BeninCamping/"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com/camping_benin?igshid=NGExMmI2YTkyZg=="><i class="fab fa-instagram"></i></a>
+          {% comment %} <a href="#"><i class="fab fa-twitter"></i></a> {% endcomment %}
+          <a href="https://www.tiktok.com/@campingbenin229?_t=8ZCGfBzjwJy&_r=1"><i class="fab fa-tiktok"></i></a>
+        </div>
+  </div>
+</div>
+</nav>
+
+<header>

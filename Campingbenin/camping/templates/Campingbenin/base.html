@@ -1,0 +1,243 @@
+{% load static %}
+<html lang="en">
+<head>
+
+   <link rel="icon" type="image/x-icon" href="{% static 'images/CAMPING2023.ico' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CampingBenin</title>
+
+    {% comment %} <link rel="stylesheet" href=" {% static 'assets/css/lightgallery.min.css' %} ">  {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="assets/css/lightgallery.min.css "> {% endcomment %}
+    <!-- Template Stylesheet -->
+	{% comment %} <link rel="stylesheet" href="{% static 'assets/css/style.css' %} "> {% endcomment %}
+
+
+<!-- Bootstrap CSS  DIGIT MARKETING-->
+
+ <link rel="stylesheet" href="{% static 'c/bootstrap.min.css' %} ">
+<link rel="stylesheet" href="{% static 'c/owl.carousel.min.css' %} ">
+<link rel="stylesheet" href="{% static 'c/owl.theme.default.min.css' %}  ">
+<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'> 
+<!-- Bootstrap CSS  DIGIT MARKETING-->
+
+<!-- Assurez-vous d'inclure le lien vers la feuille de style Bootstrap avant vos propres styles CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+<!-- Incluez jQuery avant la bibliothèque JavaScript de Bootstrap -->
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.kkiapay.me/k.js"></script>
+
+
+
+  <!-- Font Awesome Icons -->
+  {% comment %} <link rel="stylesheet" href="{% static './css/all.css' %}"> {% endcomment %}
+  <!-- AOS Library  -->
+  <!--  <link rel="stylesheet" href="./css/aos.css"> -->
+  <!-- Custom Style   -->
+	<link rel="stylesheet" href="{% static './css/Style.css' %} ">
+	<link rel="stylesheet" href="{% static './css/style2.css' %} ">
+  {% comment %} <link rel="stylesheet" href="{% static 'css/responsive.css' %} ">  {% endcomment %}
+  <!-- -->
+	 {% comment %} <link rel="stylesheet" href="{% static './css/script.js' %} ">
+	<link rel="stylesheet" href="{% static 'css/aos.css' %} "> {% endcomment %}
+  {% block head %}
+
+  {% endblock head %}
+
+
+<!-- Travel -->
+    <!-- Bootstrap Link -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <!-- Bootstrap Link -->
+                      <!-- Font Awesome Cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+                      <!-- Font Awesome Cdn -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+  <!-- Travel -->
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/css/bootstrap.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+
+{% comment %} 
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} ">
+	<link rel="stylesheet" href="{% static '' %} "> {% endcomment %}
+
+    {% block style %}  {% endblock style %}
+<style>
+
+</style>
+
+</head>
+<body>
+
+    {% block content %}
+
+
+    {% endblock content %}
+
+</body>
+
+
+
+
+
+<script>
+    const reDiv = document.querySelector('.ri');
+
+    function handleIntersection(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          reDiv.classList.add('slide-in-left');
+        } else {
+          reDiv.classList.remove('slide-in-left');
+        }
+      });
+    }
+
+    const observers = new IntersectionObserver(handleIntersection);
+
+    observers.observe(reDiv);
+
+
+    const elements = document.querySelectorAll('.col-sm-6.col-lg-4.all');
+
+    function handleScroll() {
+      elements.forEach(element => {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const scrollPosition = window.scrollY || window.pageYOffset;
+
+        if (rect.top <= windowHeight && rect.bottom >= 0 && rect.top >= 0) {
+          element.classList.add('fade-in');
+        } else {
+          element.classList.remove('fade-in');
+        }
+      });
+    }
+    document.addEventListener('scroll', handleScroll);
+    // Récupérer l'élément du conteneur div
+    const slide1 = document.querySelector('.slide1');
+    // Ajouter la classe "active" au conteneur div lorsque la page est chargée
+    window.addEventListener('load', () => {
+        slide1.classList.add('active');
+    });
+    // Récupérer l'élément HTML contenant le texte
+    const ddd = document.querySelector('.ddd');
+
+    // Définir la fonction qui supprime puis réajoute la classe d'animation
+    function repeatAnimation() {
+      // Supprimer la classe d'animation
+      ddd.classList.remove('animate');
+      // Attendre une fraction de seconde (500 millisecondes dans cet exemple)
+      setTimeout(() => {
+        // Ajouter la classe d'animation pour déclencher l'effet
+        ddd.classList.add('animate');
+      }, 500);
+    }
+    // Appeler la fonction toutes les deux secondes
+    setInterval(repeatAnimation, 4000);
+        $(document).ready(function(){
+            $(".owl-carousel").owlCarousel({
+                loop:true,
+                margin:10,
+                nav:false,
+                dots:true,
+                autoplay:true,
+                autoplayTimeout:3000,
+                autoplayHoverPause:true,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:3
+                    },
+                    1000:{
+                        items:5
+                    }
+                }
+            });
+        });
+
+    </script>
+	{% comment %} <script src=" {% static '' %} "></script>
+	<script src=" {% static '' %} "></script> {% endcomment %}
+
+
+  {% comment %} <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js"></script> {% endcomment %}
+  
+
+ <!-- End Google Map -->
+	{% comment %} <script src=" {% static 'assets/js/jquery-3.3.1.js' %} "></script>{% endcomment %}
+	<script src=" {% static 'assets/js/bootstrap.bundle.js' %} "></script>
+	<script src=" {% static 'assets/js/loaders.css.js' %} "></script>
+	<script src=" {% static 'assets/js/aos.js' %} "></script>
+	<script src=" {% static 'assets/js/swiper.min.js' %} "></script>
+	<script src=" {% static 'assets/js/lightgallery-all.min.js' %} "></script> 
+  <!--Template Script-->
+	<script src=" {% static 'assets/js/main.js' %} "></script>
+
+
+ <!--Script DIGIT MARKETING -->
+
+ {% comment %} <script src=" {% static 'j/app.js' %} "></script>
+ <script src=" {% static 'j/jquery.min.js' %} "></script>{% endcomment %}
+ <script src=" {% static 'j/bootstrap.bundle.min.js' %} "></script>
+ <script src=" {% static 'j/owl.carousel.min.js' %} "></script> 
+
+<!--Script DIGIT MARKETING -->
+ {% comment %} <script src=" {% static './js/Jquery3.4.1.min.js' %} "></script>
+
+<script src=" {% static './js/owl.carousel.min.js' %} "></script>
+
+<script src=" {% static './js/aos.js' %} "></script>
+
+<script src=" {% static './js/main.js' %} "></script>
+
+
+<script src=" {% static 'js/bootstrap.js' %} "></script>
+
+ {% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> {% endcomment %}
+{% comment %} 
+<script src=" {% static '' %} "></script>
+<script src=" {% static '' %} "></script>
+<script src=" {% static '' %} "></script>
+<script src=" {% static '' %} "></script> {% endcomment %}
+<!-- popper js -->
+ <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+<script src=" {% static 'js/custom.js' %} "></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+
+
+{% block script %}
+
+{% endblock script %}
+
+</html>

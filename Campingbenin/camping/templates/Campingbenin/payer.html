@@ -1,0 +1,25 @@
+{% extends 'Campingbenin/base.html' %}
+
+{% block content %}
+    <h1>Réservation</h1>
+
+    <form action="/api/create-reservation/" method="post">
+        {% csrf_token %}
+        {% comment %} 
+        <kkiapay-widget
+            sandbox="true"
+            amount="{{ total_amount }}"
+            key="821d754fbdad8f18284a3c36cb7dd090fa64890a"
+            callback="https://your-callback-url.com"
+            success="handleKkiaPaySuccess"
+            error="handleKkiaPayError"
+        ></kkiapay-widget>
+         {% endcomment %}
+        <kkiapay-widget 
+					    sandbox="true" amount="{{ total_amount }}" key="821d754fbdad8f18284a3c36cb7dd090fa64890a"
+						callback="https://your-callback-url.com"
+						success="handleKkiaPaySuccess" 
+                        error="handleKkiaPayError" Réserver et Payer
+		</kkiapay-widget>
+    </form>
+{% endblock %}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticket de Réservation</title>
+    <style>
+        .ticket-format {
+            border: 2px solid #0074D9; /* Bordure bleue */
+            padding: 20px;
+            width: 210px; /* Largeur correspondant à 7 cm (à 300 DPI) */
+            margin: 0 auto;
+            background-color: #F0F8FF; /* Couleur de fond bleue claire */
+        }
+    
+        .ticket-format h1 {
+            font-size: 18px;
+            color: #0074D9;
+            margin-bottom: 10px;
+        }
+    
+        .ticket-format p {
+            font-size: 14px;
+            margin: 0;
+            color: #333;
+        }
+    
+        .ticket-qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+    
+        .btn-download {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #0074D9;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    
+        .btn-continuer {
+            display: block;
+            width: 150px;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+    
+</head>
+<body>
+
+
+
+    
+    <div class="ticket-format">
+        <h1 class="ticket-title">Ticket de Réservation</h1>
+        <p class="ticket-id">Réservation ID : {{ reservation.id }}</p>
+        <!-- Ajoutez d'autres informations spécifiques à la réservation ici -->
+        
+        <!-- Code QR pour les informations de réservation -->
+        <div class="qr-code">
+            <img src="{{ qr_img }}" alt="QR Code">
+        </div>
+        
+        <!-- Bouton pour télécharger le PDF -->
+        {% comment %} <a href="{% url 'pdf' %}" class="btn-download">Télécharger le PDF</a> {% endcomment %}
+        {% comment %} <a href="{% url 'pdf' reservation_id=reservation.id %}" class="btn-download">Télécharger le PDF</a> {% endcomment %}
+        {% comment %} <a href="{% url 'generate_pdf' reservation_id=reservation.id %}" class="btn-download">Télécharger le PDF</a> {% endcomment %}
+        <a href="{% url 'generate_pdf' reservation_id=reservation.id %}" class="btn-download">Télécharger le PDF</a>
+
+
+    </div>
+
+    <!-- Bouton pour continuer -->
+    <a href="{% url 'index' %}" class="btn-continuer">Continuer</a> 
+
+    <!-- Ajoutez d'autres éléments HTML et styles CSS si nécessaire -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+{% comment %}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Ticket de réservation</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .ticket {
+                border: 1px solid #ccc;
+                padding: 20px;
+                width: 300px;
+                margin: 0 auto;
+            }
+            .qr-code {
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+    
+    </body>
+    </html>
+
+    <body>
+        <div class="ticket-format">
+            <h1>Ticket de Réservation</h1>
+            <p>Réservation ID : {{ reservation.id }}</p>
+            <!-- Ajoutez d'autres informations spécifiques à la réservation ici -->
+            
+            <!-- Code QR pour les informations de réservation -->
+            <img src="{{ qr_img }}" alt="QR Code">
+            
+            <!-- Bouton pour télécharger le PDF -->
+            <a href="{% url 'telecharger_pdf' reservation.id %}" class="btn-download">Télécharger le PDF</a>
+        </div>
+
+        <!-- Bouton pour continuer -->
+        {% comment %} <a href="{% url 'continuer' %}" class="btn-continuer">Continuer</a> 
+
+        <!-- Ajoutez d'autres éléments HTML et styles CSS si nécessaire -->
+            </body>
+            </html>
+ {% endcomment %}

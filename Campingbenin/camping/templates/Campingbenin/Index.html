@@ -1,0 +1,1173 @@
+{% extends 'Campingbenin/base.html' %}
+ {% load static %}
+	{% block style %}  
+<style>    
+    .ri{
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: opacity 0.2s ease-in-out, transform 0.5s ease-in-out;
+    }
+    .slide-in-left {
+      opacity: 1;
+      transform: translateX(0);
+      transition: transform 2s ease-in-out;
+    }  
+    .card {
+      position: relative;
+      overflow: hidden;
+    }
+    .card img {
+      transition: transform 0.5s;
+    }
+    .card:hover img {
+      transform: scale(1.1);
+    }   
+    .card:hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0);
+    }   
+    .card:hover::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        {% comment %} /* background-image: url(./images/g1.png); */ {% endcomment %}
+        background-size: cover; 
+        opacity: 0.5;
+        transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }   
+      .card:hover::before,
+      .card:hover::after {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .card:hover h2 {
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      .card:hover p {
+        color: #fff;
+        margin-bottom: 20px;
+
+      }
+      .card:hover i {
+        color: #fff;
+        font-size: 40px;
+
+      }
+      .card:hover h3 {
+        {% comment %} color: #fff; {% endcomment %} 
+        opacity:0;
+
+        {% comment %} display:none; {% endcomment %}
+      }
+      .card:hover h2,
+      .card:hover p,
+      .card:hover i {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        transform: translateY(0);
+      } 
+      .card h2,
+      .card p,
+      .card i {
+        opacity: 0;
+        transform: translateY(20px);
+        text-align: center;
+      }
+      
+      .card h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+      }
+      
+      .card p {
+        font-size: 16px;
+        margin: 0;
+      }
+      .card i {
+        font-size: 30px;
+        margin: 0 10px;
+      }
+       body{
+       background-image: url("{% static 'images/ima_36.jpg' %}");background-size:cover; background-repeat:no-repeat; 
+      } 
+   
+    .blink {
+      text-align: center;
+      display: inline-block;
+      border-radius:10px;
+      position:absolute;
+      bottom: 10px;
+      right: 10px;
+    }   
+    .blink p {
+      display: inline-block;
+      margin: 0;
+      padding: 20px;
+      font-size: 14px;
+      
+      color: #FFF;
+      {% comment %} /* background-color: #000; */ {% endcomment %}
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .scroll-box {
+      overflow: hidden;
+      position:absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .scroll-text {
+      white-space: nowrap;
+      display: inline-block;
+      animation: marquee 10s linear infinite;
+      font-size: 32px;
+      font-weight: 900px;
+      color: orange;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }	
+
+    #description {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 400px; /* ajustez la largeur maximale selon vos besoins */
+    }
+    
+
+
+    .testimony-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    
+      /* Styles supplémentaires selon vos besoins */
+      height: 100vh; /* Ajustez la hauteur selon votre mise en page */
+      text-align: center;
+    }
+    #aa {
+      font-size: 20px;
+      color: #000000;
+    }
+    
+    .testimonial-carousel {
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .testimonial-slide {
+      flex: 0 0 33.33%;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .testimonial-slide img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+    
+    .testimonial-slide h3 {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    .testimonial-slide h2 {
+      margin-top: 20px;
+    }
+    
+    .testimonial-slide p {
+      margin-top: 10px;
+    }
+
+    .testimonial{
+      background-color: #e6e6e6;
+      margin-bottom: 5px; 
+      margin-top:0px; 
+  }
+
+  /**temoignage**/
+  .carousel img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .carousel img {
+      max-width: 50%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .carousel img {
+      max-width: 100%;
+    }
+  }
+  
+  .testimonial-slide {
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 80%;
+  }
+  
+  @media (max-width: 576px) {
+    .testimonial-slide {
+      max-width: 100%;
+    }
+  }
+  
+
+  /* Styles pour le menu déroulant en mode mobile */
+@media (max-width: 767px) {
+  /* Ajoutez une couleur de fond et ajustez les styles pour rendre le menu déroulant plus lisible */
+  .navbar-collapse {
+    background-color: #fff; /* Couleur de fond du menu déroulant */
+    padding: 1rem; /* Ajoutez un peu d'espace entre le contenu et le bord du menu déroulant */
+    width: 20cm; /* Réduisez la largeur du menu déroulant à 80% de la largeur de l'écran */
+    margin-left: auto; /* Centrer le menu déroulant horizontalement */
+    margin-right: auto;
+  }
+}
+
+</style>
+	
+{% endblock style %}
+
+  {% block content %}
+ {% include  'Campingbenin/header.html' %} 
+    <main>
+    <section style="">
+
+   {% include  'Campingbenin/carou.html' %} 
+
+     
+        <section id="events" class="food_section layout_padding-bottom " 
+            style='background-repeat:no-repeat;background-size:cover;width:92%;background-color:rgba(246, 246, 246, 0.4);border-radius:6px;
+            margin-right:auto;margin-left:auto;margin-bottom:15px;margin-top:-35px;filter:blur(0px) brightness(80%)'>
+           <div class="container">
+            <div class="heading_container" style="text-align:center;">
+              <h2 style="color: #001042;margin-top:3cm; margin-left:auto; margin-right:auto; display:block;">
+                Nos Events
+              </h2>
+            </div>
+              <h3 style="color:orange; font-weight:bold;padding-bottom:-8px;">
+                Nos Events Imminents
+              </h3>
+              <div class="filters-content ">
+                <div class="row grid " >
+                  <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                      <div class="box"> 
+                        <div class="img-box">
+                          <img src="{% static 'images/ala.jpeg' %}" alt="" height="930px">
+                        </div>
+                          <div class="detail-box">
+                                <h5>
+                                  Camping Tchetti, Savalou
+                                </h5>
+                                <p id="description">
+                                  Le camping à Tchetti, Savalou offre une expérience de voyage unique qui permet 
+                                  de se rapprocher de la nature tout en découvrant les traditions locales. 
+                                  Entouré par la beauté naturelle de la région, les campeurs peuvent profiter 
+                                  de vues pittoresques sur les collines et les plaines environnantes. 
+                                  Les nuits sous les étoiles offrent un cadre paisible pour se détendre,se 
+                                  ressourcer et se déconnecter de la vie urbaine.
+                                </p>
+                            <div class="options">
+                              <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                                <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                                  Reserver
+                                </a>
+                            </div>
+                          </div>
+                      </div>
+                        </div>  
+                        <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                          <div class="box"> 
+                            <div class="img-box">
+                              <img src="{% static 'images/ima_77.jpg' %}" alt="" height="930px"> 
+                            </div>
+                              <div class="detail-box">
+                                    <h5>
+                                      Camping Kétou
+                                    </h5>
+                                    <p id="description">Notre camping est le point de départ
+                                       idéal pour explorer les environs et découvrir les nombreuses 
+                                       attractions touristiques de la région. Vous pourrez également 
+                                      profiter des activités proposées sur place, comme la randonnée 
+                                      pédestre, le VTT, la pêche ou encore le rafting.
+                                      Notre camping propose différents types d'hébergement, allant 
+                                      des tentes traditionnelles aux bungalows confortables, 
+                                      pour répondre aux besoins et aux budgets de chacun. 
+                                      Les installations sont modernes et bien entretenues 
+                                      pour offrir à nos campeurs un confort optimal.
+                                    </p>
+                                <div class="options">
+                                  <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                                    {% comment %} <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                                      Reserver
+                                    </a> {% endcomment %}
+                                </div>
+                              </div>
+                             </div>
+                          </div>  
+
+                          <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                            <div class="box"> 
+                              <div class="img-box">
+                                <img src="{% static 'images/ca1.jpeg' %}" alt="" height="930px"> 
+                              </div>
+                                <div class="detail-box">
+                                      <h5>
+                                        Camping Natitingou
+                                      </h5>
+                                      <p id="description">
+                                        Le camping de Nattitingou offre un cadre 
+                                        naturel spectaculaire et paisible, idéal pour se ressourcer
+                                         loin de l'agitation de la ville.Le camping est équipé
+                                          de toutes les commodités nécessaires pour un séjour 
+                                          confortable, y compris des tentes spacieuses et confortables, 
+                                          des installations sanitaires modernes et une cuisine équipée
+                                           pour les campeurs qui souhaitent préparer leurs propres repas.
+                                      </p>
+                                  <div class="options">
+                                    <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                                      {% comment %} <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                                        Reserver
+                                      </a> {% endcomment %}
+                                  </div>
+                                </div>
+                               </div>
+                            </div>  
+
+                  </div>  
+          </div>              
+                  <h3 style="color:orange; font-weight:bold;">
+                    Nos Events Passés
+                  </h3>
+
+                  <div class="filters-content ">
+                    <div class="row grid " >
+                      <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                          <div class="box"> 
+                            <div class="img-box">
+                              <img src="{% static 'images/ima_108.jpg' %}" alt="" height="930px"> 
+                            </div>
+                              <div class="detail-box">
+                                    <h5>
+                                      Camping Ouidah
+                                    </h5>
+                                    <p id="description">
+                                    Découvrez la beauté de la ville historique
+                                    d'Ouidah en séjournant dans notre camping.
+                                    Situé à quelques pas de la plage, notre camping
+                                    offre des emplacements ombragés pour camper en toute tranquillité. 
+                                    Profitez de la piscine pour vous rafraîchir pendant les journées chaudes 
+                                    et détendez-vous dans notre espace de détente. Notre personnel amical est à 
+                                    votre disposition pour vous aider à planifier des excursions pour découvrir 
+                                    les sites historiques de la ville, tels que la Porte du Non-Retour et le musée 
+                                    d'histoire. Venez découvrir la magie de Ouidah et profitez d'un séjour inoubliable 
+                                    dans notre camping.
+                                    </p>
+                                <div class="options">
+                                  <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal4" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                                    {% comment %} <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                                      Reserver
+                                    </a> {% endcomment %}
+                                </div>
+                              </div>
+                          </div>
+                            </div>     
+                            <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                              <div class="box"> 
+                                <div class="img-box">
+                                  <img src="{% static 'images/ima_112.jpg' %}" alt="" height="930px"> 
+                                </div>
+                                  <div class="detail-box">
+                                        <h5>
+                                         Camping Grand-Popo
+                                        </h5>
+                                        <p id="description">
+                                          Situé au bord de la mer et entouré de palmiers, notre camping à Grand-Popo 
+                                          offre une expérience de camping unique dans un cadre naturel magnifique. 
+                                          Profitez de la vue sur la plage et détendez-vous dans notre espace ombragé. 
+                                          Nos emplacements de camping offrent une intimité totale pour que vous 
+                                          puissiez profiter de votre séjour en toute tranquillité. Nous proposons 
+                                          également des activités nautiques telles que le kayak et la pêche pour les 
+                                          amateurs d'aventure. Découvrez les trésors cachés de Grand-Popo en explorant 
+                                          les mangroves et en visitant les villages de pêcheurs locaux. Notre camping 
+                                          est le lieu idéal pour une escapade paisible et relaxante.
+                                        </p>
+                                    <div class="options">
+                                      <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal5" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                                        {% comment %} <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                                          Reserver
+                                        </a> {% endcomment %}
+                                    </div>
+                                  </div>
+                                 </div>
+                              </div>  
+    
+    
+                              <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                                <div class="box"> 
+                                  <div class="img-box">
+                                    <img src="{% static 'images/ala1.jpeg' %}" alt="" height="930px"> 
+                                  </div>
+                                    <div class="detail-box">
+                                          <h5>
+                                            Camping Allada
+                                          </h5>
+                                          <p id="description">
+                                            Le camping à Allada offre une expérience de voyage unique qui permet
+                                            de se rapprocher de la nature tout en découvrant les traditions locales.
+                                          </p>
+                                      <div class="options">
+                                        <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal6" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                                          {% comment %} <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                                            Reserver
+                                          </a> {% endcomment %}
+                                      </div>
+                                    </div>
+                                   </div>
+                                </div>  
+    
+                      </div>  
+              </div>            
+         {% comment %}   <div class="filters-content ">
+            <div class="row grid " >
+            {% for event in events %}
+                <div class="col-sm-6 col-lg-4 all pizza fade-in">
+                  <div class="box"> 
+                    <div class="img-box">
+                      <img src="{% static 'images/j0.jpg' %}" alt="" height="930px"> 
+                    </div>
+                      <div class="detail-box">
+                        <h5>
+                          {{ event.name }}
+                        </h5>
+                        <p id="description">
+                          {{ event.description }} 
+                        </p>
+                        <div class="options">
+                          <button id="voir-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-event-id="{{ event.id }}" data-event-url="{% url 'get_event' %}?event_id={{ event.id }}">Voir</button>
+                          <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                            Reserver
+                          </a>
+                        </div>
+                      </div>
+                </div>
+              </div>                                                           
+                {% endfor %}
+              
+            </div>
+          </div> {% endcomment %}
+          <div class="btn-box">
+            <a  type="button" href="#events" id="reserver-btn"  style="text-decoration:none;text-align:center;margin-bottom:10px;"><span> Voir Plus</span>  </a>
+          </div>
+          </div>
+        </section>
+    </section>
+
+    <section class="services " id="services" style="border-radius:10px;
+        background-color:rgba(246, 246, 246, 0.4); margin-top:1px;padding-bottom:10px;width:100%;margin-right:auto;margin-left:auto;">
+      <div class="container ri" style="">
+        <div class="main-txt">
+          <h1 style="font-weight: 900px; color: #fff;margin-top:3cm;">Activités</h1>
+        </div>
+        <div>
+         <h2 style="color: #fff;font-weight:20px;font-size:20px; margin-left: 30px;margin-top: 10px;">Activités écolos</h2>   
+              <div class="row" style="margin-top: 30px; margin-left:auto;">
+                  <div class="col-md-4 py-3 py-md-0">
+                    <div class="card" style='height:250px;'>
+                      <img src=" {% static './images/ima_53.jpg' %} " alt="Image" class="img-fluid" style='height:180px;'>
+                      <div class="card-body">
+                        <h3 style="font-size:14px;">Voir</h3>
+                        <p style="height: 60px; font-size:11px;margin-top:-40px; ">Randonnées écologiques - Ethobotanique - Soirées à thème </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 py-3 py-md-0">
+                    <div class="card" style='height:250px;'>
+                      <img src=" {% static './images/ima_78.jpg' %} " alt="Image" class="img-fluid"style='height:180px;'>
+                      <div class="card-body">
+                        <h3 style="font-size:14px;">Voir</h3>
+                        <p style="height: 60px; font-size:11px;margin-top:-40px;">Visites des Coopératives Villageoises - Observation de la Faune et écoéthologie - Découvertes de l'histoire locale</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 py-3 py-md-0">
+                    <div class="card" style='height:250px;'>
+                      <img src=" {% static './images/ima_73.jpg' %} " alt="Image" class="img-fluid"style='height:180px;'>
+                      <div class="card-body">
+                        <h3 style="font-size:14px;">Voir</h3>
+                        <p style="height: 60px; font-size:11px;margin-top:-40px;">Activités Artistiques et Artisanales - Découvertes des principes de l'Agriculture Paysanne</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             </div>
+      <div>
+       <h2 style="color: #fff; margin-left: 30px;font-size:20px;margin-top: 10px;margin-top:10px;">Activités Sportives </h2>
+        <div class="row" style="margin-top: 30px;margin-left:auto;">
+                  <div class="col-md-4 py-3 py-md-0">
+                    <div class="card" style='height:250px;'>  
+                      <img src=" {% static './images/ima_36.jpg' %} " alt="Image" class="img-fluid"style='height:180px;'>
+                      <div class="card-body">
+                        <h3 style="font-size:14px;">Voir</h3>
+                        <p style="height: 60px; font-size:11px;margin-top:-40px;">Vélo - Sport / Jogging / Marche</p>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 py-3 py-md-0">
+                    <div class="card" style='height:250px;'>
+                      <img src=" {% static './images/ima_121.jpg' %} " alt="Image" class="img-fluid"style='height:161px;'>
+                      <div class="card-body">
+                        <h3 style="font-size:14px;">Voir</h3>
+                        <p style="height: 60px; font-size:11px;margin-top:-40px;">Randonnéé - Paintball Game</p>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 py-3 py-md-0">
+                      <div class="card" style='height:250px;'>
+                        <img src=" {% static './images/ima_73.jpg' %}  " alt="Image" class="img-fluid"style='height:180px;'>
+                        <div class="card-body">
+                          <h3 style="font-size:14px;">Voir</h3>
+                          <p style="height: 60px; font-size:11px;margin-top:-40px;">Trésors Caché - Football</p>
+                      </div>
+                    </div>
+                  </div>
+        </div>
+      </div>
+      <div >
+        <h2 style="color: #fff; margin-left: 30px;font-size:20px;">Activités Ludiques</h2>
+        <div class="row" style="margin-top: 30px;margin-left:auto;">
+
+                <div class="col-md-4 py-3 py-md-0">
+                  <div class="card" style='height:250px;'>
+                    <img src=" {% static './images/ima_156.jpg' %} " alt="Image" class="img-fluid"style='height:180px;'>
+                    <div class="card-body">
+                      <h3 style="font-size:14px;">Voir</h3>
+                      <p style="height: 60px; font-size:11px;margin-top:-40px;">Lecture - Peinture - Coloriage our adultes</p>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-md-4 py-3 py-md-0">
+
+                  <div class="card" style='height:250px;'>
+                    <img src=" {% static './images/ima_16.jpg' %} " alt="Image" class="img-fluid"style='height:180px;'>
+                    <div class="card-body">
+                      <h3 style="font-size:14px;">Voir </h3>
+                      <p style="height: 60px; font-size:11px;margin-top:-40px;">Barbecure - Projections Films - Contes autour d'un feu de Camp</p>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-md-4 py-3 py-md-0">
+
+                  <div class="card" style='height:250px;'>
+                    <img src=" {% static './images/ima_158.jpg' %} " alt="Image" class="img-fluid"style='height:180px;'>
+                    <div class="card-body">
+                      <h3 style="font-size:14px;">Voir</h3>
+                      <p style="height: 60px; font-size:11px;margin-top:-40px;">Body Panting - Mimes - Cartes / Ludo / Awalé / Scrabble</p>
+                    </div>
+                  </div>
+                </div>
+
+        </div>
+      </div>
+     </div>
+
+   </section>
+
+    <section class="gallary" id="gallary" style='padding-top:-5cm;'>
+        <div class="container">
+          <div class="main-txt">
+            <h1 style='margin-top:3cm;padding-bottom:50px; color: #fff;'>Galerie</h1>
+          </div> 
+          <div class="row" style="margin-top: 30px; ">
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src=" {% static './images/ima_128.jpg' %} " alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Avec nous des belles pauses</div>
+                        <a href="#" class="read-more">....</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src="{% static './images/ima_130.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Avec nous des belles pauses </div>
+                        <a href="#" class="read-more">...</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-3 py-md-0">
+                <div class="card box21">
+                    <img src="{% static './images/ima_97.jpg' %}" alt="" height="230px">
+                    <div class="box-content">
+                        <div class="title">CampingBenin</div>
+                        <div class="description">Une bouchée de ce dessert et vous serez conquis</div>
+                        <a href="#" class="read-more">.....</a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+          
+        </div>
+      <a  type="button" href="{% url 'view' %}" id="reserver-btn"  style="text-decoration: none; float:right; width:100px;margin:20px;"> <center>Voir Plus</center>  </a>
+    </section>
+   
+    {% comment %} <section class="testimonial-section testimonial" id="testimonial">
+      <center>
+        <h2 style="margin-top: 1cm;">Témoignages</h2>
+      </center>
+      <div class="testimonial-carousel ">
+        <div class="testimonial-slide">
+          <img src="{% static 'images/d.png' %}" alt="Person 1">
+          <h3>Serge ELECHO</h3>
+          <p>Nous reviendrons sans hésiter l'année prochaine pour profiter de cette expérience unique.</p>
+        </div>
+    
+        <div class="testimonial-slide">
+          <img src="{% static 'images/d.png' %}" alt="Person 2">
+          <h3>VODOUHE Obed</h3>
+          <p>Nous avons été agréablement surpris par l'accueil chaleureux de l'équipe du camping.</p>
+        </div>
+    
+        <div class="testimonial-slide">
+          <img src="{% static 'images/d.png' %}" alt="Person 3">
+          <h3>MIGAN Celsias</h3>
+          <p>Notre séjour au camping a été synonyme de détente et de dépaysement.</p>
+        </div>
+      </div>
+      <center>
+       <button class="btn btn" style="margin-bottom:.8cm; background-color: #ffa500;"> <a id="aa" href="{% url 'create_temoignage' %}" style=" color: #fff;">Témoignez</a> </button>
+      </center>
+    </section> {% endcomment %}
+    <section class="testimonial-section testimonial" id="testimonial">
+      <center>
+        <h2 style="margin-top: 1cm;">Témoignages</h2>
+      </center>
+      <div class="testimonial-carousel row">
+        <div class="testimonial-slide col-md-4">
+          <img src="{% static 'images/d.png' %}" alt="Person 1">
+          <h3>Serge ELECHO</h3>
+          <p>Nous reviendrons sans hésiter l'année prochaine pour profiter de cette expérience unique.</p>
+        </div>
+    
+        <div class="testimonial-slide col-md-4">
+          <img src="{% static 'images/d.png' %}" alt="Person 2">
+          <h3>VODOUHE Obed</h3>
+          <p>Nous avons été agréablement surpris par l'accueil chaleureux de l'équipe du camping.</p>
+        </div>
+    
+        <div class="testimonial-slide col-md-4">
+          <img src="{% static 'images/d.png' %}" alt="Person 3">
+          <h3>MIGAN Celsias</h3>
+          <p>Notre séjour au camping a été synonyme de détente et de dépaysement.</p>
+        </div>
+      </div>
+      <center>
+        <button class="btn btn" style="margin-bottom:.8cm; background-color: #ffa500;">
+          <a id="aa" href="{% url 'create_temoignage' %}" style="color: #fff;">Témoignez</a>
+        </button>
+      </center>
+    </section>
+
+      {% comment %} <section style="background-color:#333333;width:92%;margin-right:auto;margin-left:auto;margin-top: auto; border-radius:8px">
+        <div class="carousel-container">
+            <div class="intro" style="position:relative;bottom:75px;" >
+                <h1 style="color: #fff;">Nos partenaires</h1>
+                <div class="mx-auto" style="color:#fff;"><h1 style="color: #fff;">Nos partenaires</h1>Rejoignez la grande famille</div>
+            </div>
+            
+            <div class="carousel" style="margin-top:-100px;padding-bottom:20px;">
+                <img src="{% static 'images/logoDS.jpeg' %}" alt="dfghj" class="img-fluid col-md-1" style="height:80px">
+                <img src="{% static 'images/logo.jpeg' %}" alt="" class="img-fluid col-md-1" style="height:80px">
+                <img src="{% static 'images/3.png' %}" alt="" class="img-fluid col-md-1" style="height:80px">
+                <img src="{% static 'images/logoITSS.png' %}" alt="" class="img-fluid col-md-1" style="height:80px;background-color:#efefef">
+                <img src="{% static 'images/4.png' %}" alt="" class="img-fluid col-md-1" style="height:80px">
+                <img src="{% static 'images/5.png' %}" alt="" class="img-fluid col-md-1" style="height:80px">          
+              </div>
+        </div>
+      </section> {% endcomment %}
+      <section style="background-color:#333333;width:92%;margin-right:auto;margin-left:auto;margin-top: auto; border-radius:8px">
+        <div class="carousel-container">
+          <div class="intro" style="position:relative;bottom:75px;" >
+            <h1 style="color: #fff;">Nos partenaires</h1>
+            <div class="mx-auto" style="color:#fff;"><h1 style="color: #fff;">Nos partenaires</h1>Rejoignez la grande famille</div>
+          </div>
+          
+          <div class="carousel" style="margin-top:-100px;padding-bottom:20px;">
+            <img src="{% static 'images/logoDS.jpeg' %}" alt="dfghj" class="img-fluid col-md-1" style="height:80px; max-width: 100%; height: auto;">
+            <img src="{% static 'images/logo.jpeg' %}" alt="" class="img-fluid col-md-1" style="height:80px; max-width: 100%; height: auto;">
+            <img src="{% static 'images/3.png' %}" alt="" class="img-fluid col-md-1" style="height:80px; max-width: 100%; height: auto;">
+            <img src="{% static 'images/logoITSS.png' %}" alt="" class="img-fluid col-md-1" style="height:80px; max-width: 100%; height: auto; background-color:#efefef;">
+            <img src="{% static 'images/4.png' %}" alt="" class="img-fluid col-md-1" style="height:80px; max-width: 100%; height: auto;">
+            <img src="{% static 'images/5.png' %}" alt="" class="img-fluid col-md-1" style="height:80px; max-width: 100%; height: auto;">          
+          </div>
+        </div>
+      </section>
+      
+
+    <!-- About Start -->
+    <section class="about" id="about" style="width:92%;margin-bottom:.5cm;margin-top:.5cm;background-color:#333333;
+             margin-right:auto;margin-left:auto; border-radius:8px;">
+        <div class="container">
+  
+          <div class="main-txt">
+            <h1 style='margin-top:1cm;'>A propos</h1>
+          </div>
+          <div class="row" style="margin-top: 50px;">
+  
+            <div class="col-md-6 py-3 py-md-0">
+              <div class="card">
+                {% comment %} <!-- <img src="./images/about-img.png" alt=""> --> {% endcomment %}
+              </div>
+            </div>
+            <div class="col-md-6 py-3 py-md-0">
+              <h2>En ce qui nous concerne</h2>
+              <p>Bienvenue sur notre site de campingBenin ! Nous sommes une entreprise familiale qui propose des terrains de camping dans des endroits magnifiques et préservés. Nous sommes passionnés par la nature et nous souhaitons offrir à nos visiteurs une expérience de camping authentique et mémorable.
+                Nous avons créé notre entreprise pour permettre aux campeurs de se reconnecter avec la nature, de se détendre et de se ressourcer loin du stress de la vie quotidienne. Nous sommes fiers d'offrir des terrains de camping bien entretenus et équipés pour répondre aux besoins de tous les types de campeurs, qu'ils préfèrent les tentes, les caravanes ou les chalets..</p>
+              {% comment %} <button id="about-btn">Plus ...</button> {% endcomment %}
+            </div>
+          </div>
+        </div>
+    </section>
+
+  <div  class="modal fade " id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <section class="container">
+            <div class="site-content">
+                <div class="posts">
+                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="post-image">
+                          {% comment %} style="height:350px; position: relative; right:80px;"  {% endcomment %}
+                            <div>
+                                <img src=" {% static 'images/ala.jpeg' %}" class="img" alt="blog1">
+                            </div>
+                        </div>
+                        <div class="post-title">
+                            <h4 href="#" style="padding-bottom:-20px;">Camping Tchetti, Savalou</h4>
+                            <p>Le camping à Savalou offre une expérience de voyage unique qui permet 
+                              de se rapprocher de la nature tout en découvrant les traditions locales. 
+                              Entouré par la beauté naturelle de la région, les campeurs peuvent profiter 
+                              de vues pittoresques sur les collines et les plaines environnantes. 
+                              Les nuits sous les étoiles offrent un cadre paisible pour se détendre,se 
+                              ressourcer et se déconnecter de la vie urbaine. N'oubliez surtout pas l'ignamme pilé
+                            </p> 
+                          </div>
+                    </div>
+                    <hr>
+                
+                </div>
+                <aside class="sidebar">
+                    <div class="category" style="position: relative; right:80px;">
+                        <h2>Informations</h2>
+                        <ul class="category-list">
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                          <p>Camping Tchetti, Savalou</p>   
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                            <p>19 au 21/Août/2023 - 8h </p> 
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                              <p>Savalou</p>
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                            <p>30 Persones</p>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                          </aside>
+            
+        </div>
+      </section>
+      </div>
+      </div>
+      </div>
+  </div> 
+  <div  class="modal fade " id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <section class="container">
+            <div class="site-content">
+                <div class="posts">
+                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="post-image">
+                          
+                            <div>
+                                <img src=" {% static 'images/ima_77.jpg' %}" class="img" alt="blog1"  >
+                            </div>
+                        </div>
+                        <div class="post-title">
+                            <h4 href="#">Camping Kétou</h4>
+                            <p>Notre camping est le point de départ
+                              idéal pour explorer les environs et découvrir les nombreuses 
+                              attractions touristiques de la région. Vous pourrez également 
+                            profiter des activités proposées sur place, comme la randonnée 
+                            pédestre, le VTT, la pêche ou encore le rafting.
+                            Notre camping propose différents types d'hébergement, allant 
+                            des tentes traditionnelles aux bungalows confortables, 
+                            pour répondre aux besoins et aux budgets de chacun. 
+                            Les installations sont modernes et bien entretenues 
+                            pour offrir à nos campeurs un confort optimal.
+                            </p> 
+                          </div>
+                    </div>
+                    <hr>
+                
+                </div>
+                <aside class="sidebar">
+                    <div class="category" style="position: relative; right:80px;">
+                        <h2>Informations</h2>
+                        <ul class="category-list">
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                          <p>Camping Kétou</p>   
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                            <p>7/ Juillet/ 2023 - 8h/p> 
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                              <p>Kétou</p>
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                            <p>50 Personnes</p>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                          </aside>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+  </div> 
+  <div  class="modal fade " id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <section class="container">
+            <div class="site-content">
+                <div class="posts">
+                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="post-image">
+                          
+                            <div>
+                                <img src=" {% static 'images/ca1.jpeg' %}" class="img" alt="blog1" >
+                            </div>
+                        </div>
+                        <div class="post-title">
+                            <h4 href="#">Camping Natitingou</h4>
+                            <p> Le camping de Nattitingou offre un cadre 
+                              naturel spectaculaire et paisible, idéal pour se ressourcer
+                              loin de l'agitation de la ville.Le camping est équipé
+                                de toutes les commodités nécessaires pour un séjour 
+                                confortable, y compris des tentes spacieuses et confortables, 
+                                des installations sanitaires modernes et une cuisine équipée
+                                pour les campeurs qui souhaitent préparer leurs propres repas.
+                            </p> 
+                          </div>
+                    </div>
+                    <hr>
+                
+                </div>
+                <aside class="sidebar">
+                    <div class="category" style="position: relative; right:80px;">
+                        <h2>Informations</h2>
+                        <ul class="category-list">
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                          <p>Camping Natitingou</p>   
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                            <p>20/ Août / 2023 - 7h</p> 
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                              <p>Natitinguou</p>
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                            <p>80 Persones</p>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                  </aside>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+  </div>   
+  <div  class="modal fade " id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <section class="container">
+            <div class="site-content">
+                <div class="posts">
+                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="post-image">
+                          
+                            <div>
+                                <img src=" {% static 'images/ima_108.jpg' %}" class="img" alt="blog1"  >
+                            </div>
+                        </div>
+                        <div class="post-title">
+                            <h4 href="#">Camping Ouidah</h4>
+                            <p> Découvrez la beauté de la ville historique
+                              d'Ouidah en séjournant dans notre camping.
+                              Situé à quelques pas de la plage, notre camping
+                              offre des emplacements ombragés pour camper en toute tranquillité. 
+                              Profitez de la piscine pour vous rafraîchir pendant les journées chaudes 
+                              et détendez-vous dans notre espace de détente. Notre personnel amical est à 
+                              votre disposition pour vous aider à planifier des excursions pour découvrir 
+                              les sites historiques de la ville, tels que la Porte du Non-Retour et le musée 
+                              d'histoire. Venez découvrir la magie de Ouidah et profitez d'un séjour inoubliable 
+                              dans notre camping.
+                            </p> 
+                          </div>
+                    </div>
+                    <hr>
+                
+                </div>
+                <aside class="sidebar">
+                    <div class="category" style="position: relative; right:80px;">
+                        <h2>Informations</h2>
+                        <ul class="category-list">
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                          <p>Camping Ouidah</p>   
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                            <p>12/ Mars/ 2023 - 9h</p> 
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                              <p>Ouidah</p>
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                            <p>120 Personnes</p>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                  </aside>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+  </div> 
+  <div  class="modal fade " id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <section class="container">
+            <div class="site-content">
+                <div class="posts">
+                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="post-image">
+                          
+                            <div>
+                                <img src=" {% static 'images/ima_112.jpg' %}" class="img" alt="blog1" >
+                            </div>
+                        </div>
+                        <div class="post-title">
+                            <h4 href="#">Camping Grand-Popo</h4>
+                            <p>Situé au bord de la mer et entouré de palmiers, notre camping à Grand-Popo 
+                              offre une expérience de camping unique dans un cadre naturel magnifique. 
+                              Profitez de la vue sur la plage et détendez-vous dans notre espace ombragé. 
+                              Nos emplacements de camping offrent une intimité totale pour que vous 
+                              puissiez profiter de votre séjour en toute tranquillité. Nous proposons 
+                              également des activités nautiques telles que le kayak et la pêche pour les 
+                              amateurs d'aventure. Découvrez les trésors cachés de Grand-Popo en explorant 
+                              les mangroves et en visitant les villages de pêcheurs locaux. Notre camping 
+                              est le lieu idéal pour une escapade paisible et relaxante.
+                            </p> 
+                          </div>
+                    </div>
+                    <hr>
+                
+                </div>
+                <aside class="sidebar">
+                    <div class="category" style="position: relative; right:80px;">
+                        <h2>Informations</h2>
+                        <ul class="category-list">
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                          <p>Camping Grand-Popo</p>   
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                            <p>1/ Janvier/ 2023 - 9h</p> 
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                              <p>Grand-Popo</p>
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                            <p>112 Personnes</p>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                </aside>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+  </div>  
+  <div  class="modal fade " id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <section class="container">
+            <div class="site-content">
+                <div class="posts">
+                    <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="post-image">
+                          
+                            <div>
+                                <img src=" {% static 'images/ala1.jpeg' %}" class="img" alt="blog1" >
+                            </div>
+                        </div>
+                        <div class="post-title">
+                            <h4 href="#">Camping Allada</h4>
+                            <p>Le camping à Allada offre une expérience de voyage unique qui permet
+                              de se rapprocher de la nature tout en découvrant les traditions locales.
+                            </p> 
+                          </div>
+                    </div>
+                    <hr>
+                
+                </div>
+                <aside class="sidebar">
+                    <div class="category" style="position: relative; right:80px;">
+                        <h2>Informations</h2>
+                        <ul class="category-list">
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                          <p>Camping Alada</p>   
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                            <p>20/ Novembre/ 2022 - 8h</p> 
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                              <p>Allada</p>
+                            </li>
+                            <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                            <p>60 Personnes</p>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                </aside>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+  </div> 
+</main>
+{% include  'Campingbenin/footer.html' %} 
+{% endblock content %}
+{% block script %}  
+<script>
+  $(document).ready(function() {
+    // Événement click sur le bouton "Voir"
+    $('button#voir-btn').click(function() {
+      // Récupérer l'URL de la vue
+      var eventUrl = $(this).data('event-url');
+      
+      // Appeler la vue pour récupérer les informations de l'événement
+      $.ajax({
+        url: eventUrl,
+        success: function(data) {
+          // Afficher les informations de l'événement dans le modal
+          $('#exampleModal').find('#event-name').text(data.name);
+          $('#exampleModal').find('#event-description').text(data.description);
+        }
+      });
+    });
+  });
+  // Récupérer tous les éléments de la diapositive et des miniatures
+  const slides = document.querySelectorAll('.slide');
+  const thumbnails = document.querySelectorAll('.thumbnail');
+
+  // Définir la diapositive par défaut
+  let currentSlide = 1;
+
+  // Ajouter la classe active à la diapositive par défaut
+  slides[currentSlide - 1].classList.add('active-slide');
+  thumbnails[currentSlide - 1].classList.add('active-thumbnail');
+
+  const description = document.getElementById('description');
+  const text = description.textContent;
+  if (text.length > 500) {
+  description.textContent = text.slice(0, 500) + '...';
+  }
+
+</script>
+{% endblock script %}

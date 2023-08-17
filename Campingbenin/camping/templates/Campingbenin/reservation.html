@@ -1,0 +1,226 @@
+{% extends 'Campingbenin/base.html' %}
+ {% load static %}
+ {% block head %}
+ <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900" rel="stylesheet">	
+		{% comment %} <link rel="stylesheet" href=" {% static 'carou/css/owl.carousel.min.css'%} ">
+        <link rel="stylesheet" href="{% static 'carou.css/owl.theme.default.min.css'%} ">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+		<link rel="stylesheet" href=" {% static 'carou/css/animate.css'%} ">{% endcomment %}
+		{% comment %} <link rel="stylesheet" href=" {% static 'carou/css/style.css'%} ">  {% endcomment %}
+		<link rel="stylesheet" href=" {% static 'css/style1.css'%} "> 
+ {% endblock head %}
+{% block style %}  
+	<style>
+		.modal-dialog {
+		max-width: 800px;
+		}
+		.modal-content {
+		background-color: #f2f2f2;
+		}
+	</style>
+{% endblock style %}
+  {% block content %}
+{% include  'Campingbenin/header.html' %} 
+<main>  			
+			<div id="booking" class="section" style="background-color:#023b8e;">
+				<div class="section-center">
+					<div class="container">
+						<div class="row">
+							<div class="booking-form">
+								<div class="form-header">
+									<h1 style="color:#ffa500;">Réserver Maintenant</h1>
+								</div>
+			<form method="post" action="/api/create-reservation/">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<span class="form-label">Noms et Prénoms *</span>
+							<input class="form-control" type="text" name="name" required>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<span class="form-label">Numéro Téléphone *</span>
+							<input class="form-control" type="text" name="numeroTelephone" required>
+						</div>
+					</div>
+				</div>	
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<span class="form-label">Email</span>
+							<input class="form-control" required type="email" name="mail">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<span class="form-label">Nombre de Personnes</span>
+							<select class="form-control" required name="size" id="nbPersonnes">
+								<option value="0">Choisir</option>
+								<option value="60">Solo</option>
+								<option value="100">Couples</option>
+								<option value="190">4 Personnes</option>
+							</select>
+							<span class="select-arrow"></span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div id="total" class="col-md-6" style="display:none;">
+						<div class="form-group ">
+							<div id="tot">
+								<span class="form-label">Total</span>
+								<input id="totalInput" name="total" class="form-control col-md-6" type="text" readonly>
+							</div>
+						
+						</div>
+					</div>
+					<div id="totals" class="col-md-6" style="display:none;">
+						<div class="form-group">
+							<span class="form-label">Nombre de tranches</span>
+							<select class="form-control" name="installments">
+								<option value="1">1 tranche</option>
+								<option value="2">2 tranches</option>
+								<option value="3">3 tranches</option>
+								<!-- Ajoutez les options supplémentaires ici -->
+							</select>
+							<span class="select-arrow"></span>
+						</div>
+					</div>
+				</div>
+				
+				<input type="hidden" name="kkia_transaction_code" value="{{ kkia_transaction_code }}">
+				<div class="form-btn" style="display: flex; justify-content: space-around;">
+					<a href="{% url 'event_list' %}" style="text-decoration: none;"> 
+					<button type="button" name="annuler" class="btns" style="background-color: #ffa500;color: #fff;font-weight:400px;
+					height:30px;border-radius:6px;display:block;border:none;width:100px;">Annuler</button>
+				</a>
+					 <button type="submit"  class="btns"style="background-color: #ffa500;color: #fff;font-weight:400px;
+					height:30px;border-radius:6px;display:block;border:none;width:150px;">Reserver</button>  
+				</div>
+			</form>
+			  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title" id="exampleModalLabel">Information pour vous chers Visiteurs  </h5>
+					  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Nous sommes actuellement en train de procéder à une mise à jour importante pour améliorer votre expérience sur notre site. Nous nous excusons pour tout inconvénient que cela pourrait causer.
+						Nous travaillons sans relâche pour rétablir le site dans les plus brefs délais et vous fournir des services exceptionnels. Nous vous remercions de votre patience et de votre compréhension.
+						Nous espérons vous revoir bientôt pour découvrir toutes les nouvelles fonctionnalités que nous avons en réserve
+					</div>
+					
+				  </div>
+				</div>
+			  </div>
+</main>  
+ {% include  'Campingbenin/footer.html' %}  	
+	{% endblock content %}
+	{% block script %}  
+	<script src="https://cdn.kkiapay.me/k.js"></script>
+  <script>
+	
+		// Obtenir la valeur du montant total (vous devez adapter selon votre modèle / logique)
+		var totalAmount = '{{ total_amount }}';
+	
+		// Insérer la valeur du montant total dans le champ désactivé
+		document.getElementById('totalInput').value = totalAmount;
+
+
+const nbPersonnesSelect = document.getElementById("nbPersonnes");
+const totalInput = document.getElementById("totalInput");
+const totalDiv = document.getElementById("total");
+const tot = document.getElementById("tot");
+const totalsDiv = document.getElementById("totals");
+// Ajouter un écouteur d'événement au changement de sélection
+nbPersonnesSelect.addEventListener("change", function() {
+  // Récupérer la valeur sélectionnée
+  const nbPersonnes = parseInt(nbPersonnesSelect.value);
+
+  // Calculer le total et l'afficher
+  const total = nbPersonnes * 1000;
+  totalInput.value = total;
+  // Afficher le div "Total" s'il est caché
+ // if (totalDiv.style.display === "none")
+   //{
+		if(  nbPersonnesSelect.value != "0"){
+				totalDiv.style.display = "block";
+				tot.style.display = "block";
+				totalsDiv.style.display = "block";
+		}
+		else{
+				tot.style.display = "none";
+				totalDiv.style.display = "none";
+				totalsDiv.style.display = "none";
+		}
+  {% comment %} }  
+  else{
+	    tot.style.display = "none";
+		totalsDiv.style.display = "none";
+  } {% endcomment %}
+
+	{% comment %} else if ((nbPersonnes.value === "0" && totalDiv.style.display = "block";) || nbPersonnes.value === "0")
+		{
+			totalInput.style.display = "none";
+			totalsDiv.style.display = "none";
+
+		} {% endcomment %}
+  {% comment %} else{
+  //  total.style.display = "none";
+
+  } {% endcomment %}
+});
+// Optionnel : activation de la fonctionnalité de fermeture de la popup lorsque l'utilisateur clique en dehors de celle-ci
+{% comment %} $(document).mouseup(function(e) {
+	var container = $(".modal-content");
+	if (!container.is(e.target) && container.has(e.target).length === 0) {
+	  container.closest(".modal").modal("hide");
+	}
+  }); {% endcomment %}
+  $(document).ready(function() {
+	// Sélectionnez votre bouton de formulaire par son ID et ajoutez un événement de clic
+	$('#mon').click(function(e) {
+	  // Empêchez le comportement de clic par défaut du bouton de formulaire
+	  e.preventDefault();
+	  // Vérifiez si les champs numéro de téléphone et noms et prénoms sont remplis
+	  var numeroTelephone = $('input[type="number"][required]').val();
+	  var nomsEtPrenoms = $('input[type="text"][required]').val();
+	  // Si les champs numéro de téléphone et noms et prénoms sont remplis, ouvrez le modal
+	  if (numeroTelephone && nomsEtPrenoms) {
+		$('#mon-modal').modal('show');
+	  }
+	});
+  });
+    function handleKkiaPaySuccess(response) {
+        // La transaction KkiaPay a réussi
+        document.getElementById('kkiaTransactionCode').value = response.transaction_code;
+        // Soumettre le formulaire
+        document.querySelector('form').submit();
+    }
+    function handleKkiaPayError(error) {
+        // Gérer l'erreur lors du paiement KkiaPay
+        console.error(error);
+    }
+	// Récupérer la référence du bouton Kkiapay
+const button = document.querySelector('kkiapay-widget');
+// Ajouter un gestionnaire d'événement pour le clic sur le bouton
+button.addEventListener('click', function() {
+  // Votre logique de traitement lorsque le bouton est cliqué
+  // Par exemple, effectuer une action avant de rediriger vers Kkiapay
+  // Rediriger vers Kkiapay
+  window.location.href = button.callback;
+});
+// Fonction de gestion pour le succès de Kkiapay
+function handleKkiaPaySuccess() {
+  // Votre logique de traitement lorsque la transaction est réussie
+}
+// Fonction de gestion pour l'erreur de Kkiapay
+function handleKkiaPayError() {
+  // Votre logique de traitement en cas d'erreur de transaction
+}
+  </script>
+	{% endblock script %}
+</html>

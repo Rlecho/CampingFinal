@@ -1,0 +1,305 @@
+{% extends 'Campingbenin/base.html' %}
+ {% load static %}
+ {% block head %}
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900" rel="stylesheet">	
+		<link rel="stylesheet" href=" {% static 'css/style1.css'%} "> 
+ {% endblock head %}
+	{% block style %}  
+
+	<style>   
+        #displayTestimony {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px auto;
+          }
+          
+          #displayTestimony p {
+            margin-bottom: 10px;
+          }
+          
+          #displayTestimony .author {
+            font-weight: bold;
+            font-size: 18px;
+          }
+          
+          #displayTestimony .text {
+            font-style: italic;
+            font-size: 16px;
+          }  
+          
+          
+          .testimonial-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh; /* Ajustez la hauteur selon votre besoin */
+          
+            /* Styles supplémentaires selon votre besoin */
+            background-color: #f2f2f2;
+            margin: 0 auto;
+            padding: 20px;
+            width: 80%; /* Ajustez la largeur selon votre besoin */
+          }
+          
+          .testimonial-section h2 {
+            text-align: center;
+          }
+          
+          .testimonial-section form {
+            width: 100%;
+          }
+          
+          .testimonial-section .form-group {
+            margin-bottom: 20px;
+          }
+          
+          .testimonial-section label {
+            display: block;
+            margin-bottom: 5px;
+          }
+          
+          .testimonial-section textarea {
+            width: 100%;
+            height: 150px; /* Ajustez la hauteur selon votre besoin */
+          }
+          
+          .testimonial-section button[type="submit"] {
+            display: block;
+            margin: 0 auto;
+          }
+
+
+          #displayTestimony {
+            margin: 20px 0;
+          }
+          
+          .testimonial {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 10px;
+          }
+          
+          .author {
+            font-weight: bold;
+          }
+          
+          .text {
+            margin-top: 5px;
+          }
+	</style>
+	
+{% endblock style %}
+
+  {% block content %}
+
+{% include  'Campingbenin/headers.html' %} 
+<main>  			
+   
+    <section class="" id="testimonial">
+      <section class="" id="testimonial">
+        <div class="testimonial-section">
+          <h2>Ajouter un témoignage</h2>
+          <form id="testimonyForm" action="{% url 'create_testimonial' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="authorName">Nom & Prénoms *</label>
+              <input type="text" id="authorName" name="authorName" required>
+            </div>
+            <div class="form-group">
+              <label for="testimonyText">Témoignage *</label>
+              <textarea id="testimonyText" name="testimonyText" required></textarea>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="submit">Envoyer</button>
+            </div>
+          </form>
+        </div>
+            
+        {% comment %} <div id="displayTestimony">
+          {% for testimony in page_obj %}
+            <div class="testimonial">
+              <p class="author">{{ testimony.author }}</p>
+              <p class="text">{{ testimony.text }}</p>
+            </div>
+          {% endfor %}
+        </div> {% endcomment %}
+      
+        {% comment %} <div style="display:flex;justify-content:center;align-items: center;margin: 15px;">
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+            <a class="btn btn-default" style="margin-right:25px; border: solid 1px;" href="?page={{ page_obj.previous_page_number }}" id="previousButton">Précédent</a>
+          {% else %}
+            <span class="disabled " style="">Précédent</span>
+          {% endif %}
+      
+          {% if page_obj.has_next %}
+            <a class="btn btn-default" style=" border: solid 1px" href="?page={{ page_obj.next_page_number }}" id="nextButton">Suivant</a>
+          {% else %}
+            <span class="disabled">Suivant</span>
+          {% endif %}
+        </div> {% endcomment %}
+        </center>
+      </section>
+      {% comment %} <div class="testimonial-section">
+        <h2>Ajouter un témoignage</h2>
+        <form id="testimonyForm" action="{% url 'create_testimonial' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="authorName">Nom de l'auteur</label>
+            <input type="text" id="authorName" name="authorName" required>
+          </div>
+          <div class="form-group">
+            <label for="testimonyText">Témoignage</label>
+            <textarea id="testimonyText" name="testimonyText" required></textarea>
+          </div>
+          <div class="form-group">
+            <button class="btn" type="submit">Créer le témoignage</button>
+          </div>
+        </form>
+      </div>
+          
+      <div id="displayTestimony">
+        {% for testimony in testimonies %}
+          <div class="testimonial">
+            <p class="author">{{ testimony.author }}</p>
+            <p class="text">{{ testimony.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+
+      <div class="pagination">
+        <button id="previousButton" disabled>Précédent</button>
+        <button id="nextButton" {% if not has_more %}disabled{% endif %}>Suivant</button>
+      </div> {% endcomment %}
+    </section>
+
+    </main>  
+ {% include  'Campingbenin/footer.html' %}  
+		
+	{% endblock content %}
+
+
+	{% block script %}  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-9LTgIST1n/rz3HI2np37x5kpn9CUcYsb+ZNSwDhRRUypNrCXOFoqLMRGzePeukZT9DIlb2J8wuphDZaXmmoNkw==" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function() {
+      // Récupérer les témoignages enregistrés dans les cookies
+      var storedTestimonies = $.cookie('testimonies');
+      var allTestimonies = storedTestimonies ? JSON.parse(storedTestimonies) : [];
+    
+      // Définir le nombre de témoignages à afficher par page
+      var testimoniesPerPage = 5;
+    
+      // Variables pour gérer la pagination
+      var currentPage = 1;
+      var visibleTestimonies = [];
+      var totalPages = Math.ceil(allTestimonies.length / testimoniesPerPage);
+    
+      // Fonction pour afficher les témoignages d'une page spécifique
+      function displayTestimonies(pageNumber) {
+        // Vider les témoignages visibles actuels
+        $('#displayTestimony').empty();
+        
+        // Calculer l'indice de début et de fin pour les témoignages à afficher
+        var startIndex = (pageNumber - 1) * testimoniesPerPage;
+        var endIndex = startIndex + testimoniesPerPage;
+        
+        // Copier les témoignages de la page dans les témoignages visibles
+        visibleTestimonies = allTestimonies.slice(startIndex, endIndex);
+        
+        // Afficher les témoignages de la page actuelle
+        for (var i = 0; i < visibleTestimonies.length; i++) {
+          var testimony = visibleTestimonies[i];
+          var testimonyHTML = '<div class="testimonial">';
+          testimonyHTML += '<p class="author">' + testimony.author + '</p>';
+          testimonyHTML += '<p class="text">' + testimony.text + '</p>';
+          testimonyHTML += '</div>';
+          
+          $('#displayTestimony').append(testimonyHTML);
+        }
+        
+        // Mettre à jour l'état des boutons de pagination
+        $('#previousButton').prop('disabled', pageNumber === 1);
+        $('#nextButton').prop('disabled', pageNumber === totalPages);
+      }
+    
+      // Fonction pour sauvegarder les témoignages dans les cookies
+      function saveTestimonies() {
+        $.cookie('testimonies', JSON.stringify(allTestimonies));
+      }
+    
+      // Afficher les témoignages de la page 1 au chargement de la page
+      displayTestimonies(currentPage);
+    
+      $('#testimonyForm').submit(function(e) {
+        e.preventDefault();
+    
+        var author = $('#authorName').val();
+        var text = $('#testimonyText').val();
+    
+        // Enregistrement du témoignage
+        allTestimonies.push({ author: author, text: text });
+    
+        // Sauvegarde des témoignages
+        saveTestimonies();
+    
+        // Réinitialisation du formulaire
+        $('#authorName').val('');
+        $('#testimonyText').val('');
+    
+        // Afficher la dernière page contenant le nouveau témoignage
+        currentPage = Math.ceil(allTestimonies.length / testimoniesPerPage);
+        displayTestimonies(currentPage);
+      });
+    
+      $('#previousButton').click(function() {
+        // Aller à la page précédente
+        currentPage--;
+    
+        // Afficher les témoignages de la nouvelle page
+        displayTestimonies(currentPage);
+      });
+    
+      $('#nextButton').click(function() {
+        // Aller à la page suivante
+        currentPage++;
+    
+        // Afficher les témoignages de la nouvelle page
+        displayTestimonies(currentPage);
+      });
+    });
+
+  <!-- Inclure jQuery -->
+
+    $(document).ready(function() {
+      // Cibler le formulaire d'envoi de témoignage
+      var form = $('#testimonyForm');
+      
+      // Capter l'événement de soumission du formulaire
+      form.on('submit', function(event) {
+        event.preventDefault(); // Empêcher la soumission normale du formulaire
+
+        // Envoyer la requête AJAX pour enregistrer le témoignage
+        $.ajax({
+          url: form.attr('action'),  // URL d'action du formulaire
+          type: form.attr('method'), // Méthode d'envoi du formulaire (POST)
+          data: form.serialize(),    // Données du formulaire sérialisées
+          success: function(response) {
+            // Afficher le popup de confirmation
+            alert('Votre témoignage a été bien reçu. Merci pour votre visite !');
+
+            // Rediriger vers la page d'accueil après la confirmation
+            window.location.href = '/index'; // Modifier ici l'URL de votre page d'accueil
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            // En cas d'erreur, afficher un message d'erreur
+            alert('Une erreur s\'est produite. Veuillez réessayer.');
+          }
+        });
+      });
+    });
+</script>
+	{% endblock script %}

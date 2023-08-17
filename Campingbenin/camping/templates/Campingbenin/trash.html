@@ -1,0 +1,992 @@
+
+
+
+
+
+
+
+
+Voici mon model pour le events class Event(models.Model):
+name = models.CharField(max_length=100)
+description = models.TextField()
+date = models.DateField()
+time = models.TimeField()
+price = models.DecimalField(max_digits=8, decimal_places=2)
+capacity = models.IntegerField(validators=[MinValueValidator(1)])
+location = models.CharField(max_length=100)
+ça c'est pour l'image des events class ImageImage(models.Model):
+
+object = models.ForeignKey(
+    Event,
+    on_delete = models.CASCADE,
+    verbose_name = "Event",
+    )
+name = models.CharField(max_length=100, verbose_name = "Titre de l'image")
+image = models.ImageField(upload_to = "event/")
+caption = models.TextField(verbose_name = "Caption", null = True, blank = True)
+date = models.DateTimeField(auto_now_add=True)
+
+class Meta:
+    verbose_name = "Image"
+    verbose_name_plural = "Images"
+
+def __str__(self):
+    return self.name ça c'est la view pour afficher les event:def event_list_view(request):
+events = Event.objects.all()
+return render(request, 'Campingbenin/event_list.html', {'events': events})
+Maintenant j'arrive pas à afficher les images associé à chaque events comment je faire ça 
+
+ChatGPT
+Pour afficher les images associées à chaque événement dans votre modèle de vue event_list_view,
+vous devez accéder aux images associées à chaque événement en utilisant la relation de clé étrangère
+définie dans votre modèle Image. Voici comment vous pouvez modifier votre vue pour afficher les images pour chaque événement:
+
+python
+Copy code
+def event_list_view(request):
+events = Event.objects.all()
+
+# Créez un dictionnaire pour stocker les images pour chaque événement
+event_images = {}
+
+# Parcourez chaque événement
+for event in events:
+    # Obtenez toutes les images associées à cet événement
+    images = Image.objects.filter(object=event)
+
+    # Stockez les images dans le dictionnaire en utilisant l'ID de l'événement comme clé
+    event_images[event.id] = images
+
+# Renvoyer les événements et les images associées à chaque événement dans le contexte de rendu
+return render(request, 'Campingbenin/event_list.html', {'events': events, 'event_images': event_images})
+Ensuite, dans votre modèle de template event_list.html, vous pouvez utiliser la variable event_images pour accéder aux images pour chaque événement et les afficher. Voici un exemple de code pour afficher les images pour chaque événement:
+
+php
+Copy code
+{% for event in events %}
+<h2>{{ event.name }}</h2>
+<p>{{ event.description }}</p>
+<p>Date: {{ event.date }}</p>
+<p>Time: {{ event.time }}</p>
+<p>Price: {{ event.price }}</p>
+<p>Capacity: {{ event.capacity }}</p>
+<p>Location: {{ event.location }}</p>
+
+<!-- Afficher les images pour cet événement -->
+{% for image in event_images[event.id] %}
+    <img src="{{ image.image.url }}" alt="{{ image.name }}">
+    <p>{{ image.caption }}</p>
+{% endfor %}
+{% endfor %}
+Cela affichera les informations de chaque événement ainsi que toutes les images associées à cet événement.
+Notez que nous utilisons event.id pour accéder aux images pour chaque événement dans la boucle for.
+
+
+
+
+
+User
+je veux que quand je clique sur ce bouton:      <a href="{% url 'reservation'%}" type="button" id="reserver-btn" style="text-decoration: none;">
+                      Reserver
+              </a>, ça me recupère l'id de l'evenement en me redirigeant vers la page de reervation
+ChatGPT
+Pour récupérer l'ID de l'événement lorsqu'un utilisateur clique sur le bouton "Réserver", vous pouvez ajouter l'ID de l'événement dans l'URL de redirection vers la page de réservation.
+
+Voici comment vous pouvez modifier le code HTML pour inclure l'ID de l'événement dans l'URL de redirection:
+
+bash
+Copy code
+<a href="{% url 'reservation' event.id %}" type="button" id="reserver-btn" style="text-decoration: none;">
+Réserver
+</a>
+Dans le code ci-dessus, nous avons ajouté event.id à l'URL de redirection en utilisant le format {% url 'reservation' event.id %}. L'objet event doit être accessible dans la portée de votre modèle de template pour que cela fonctionne.
+
+Ensuite, vous devez ajouter une URL pour la page de réservation qui accepte l'ID de l'événement en tant que paramètre. Voici un exemple d'URL que vous pouvez ajouter à votre fichier urls.py:
+
+lua
+Copy code
+path('reservation/<int:event_id>/', views.reservation_view, name='reservation')
+Dans le code ci-dessus, nous avons ajouté un paramètre <int:event_id> à l'URL pour accepter l'ID de l'événement. Nous avons également nommé l'URL reservation pour pouvoir y accéder en utilisant la balise {% url %} dans notre modèle de template.
+
+Enfin, vous pouvez accéder à l'ID de l'événement dans votre modèle de vue de réservation en utilisant le paramètre event_id. Voici un exemple de code pour récupérer l'ID de l'événement dans votre modèle de vue:
+
+python
+Copy code
+def reservation_view(request, event_id):
+event = get_object_or_404(Event, id=event_id)
+# Reste du code pour afficher la page de réservation
+Dans le code ci-dessus, nous avons utilisé la fonction get_object_or_404 pour récupérer l'objet Event correspondant à l'ID de l'événement. Ensuite, vous pouvez utiliser l'objet event pour afficher les informations de l'événement sur la page de réservation.
+
+
+
+
+
+User
+Un code js pour aficher deux card chaque fois que j'appuis surun bouton Plus
+ChatGPT
+Voici un exemple de code JavaScript qui affiche deux cartes chaque fois que vous cliquez sur un bouton "Plus". Vous pouvez l'adapter à vos besoins en modifiant les sélecteurs CSS pour correspondre à votre HTML.
+
+HTML:
+
+php
+Copy code
+<div class="card-container">
+<div class="card">Card 1</div>
+<div class="card">Card 2</div>
+<div class="card">Card 3</div>
+<div class="card">Card 4</div>
+<div class="card">Card 5</div>
+<div class="card">Card 6</div>
+</div>
+
+<button id="show-more">Plus</button>
+JavaScript:
+
+javascript
+Copy code
+const showMoreButton = document.getElementById("show-more");
+const cards = document.querySelectorAll(".card");
+let index = 2; // index de la première carte à afficher
+
+// Masquer toutes les cartes sauf les deux premières
+for (let i = index; i < cards.length; i++) {
+cards[i].style.display = "none";
+}
+
+// Ajouter un gestionnaire d'événements de clic pour le bouton "Plus"
+showMoreButton.addEventListener("click", function () {
+// Afficher deux cartes supplémentaires
+for (let i = index; i < index + 2; i++) {
+if (i < cards.length) {
+  cards[i].style.display = "block";
+}
+}
+index += 2; // Mettre à jour l'index de la première carte à afficher
+});
+Dans ce code, nous avons d'abord récupéré le bouton "Plus" et toutes les cartes avec des sélecteurs CSS. Nous avons ensuite initialisé l'index de la première carte à afficher à 2, car les deux premières cartes sont déjà affichées par défaut.
+
+Ensuite, nous avons masqué toutes les cartes sauf les deux premières en utilisant une boucle for et la propriété display de CSS.
+
+Nous avons ajouté un gestionnaire d'événements de clic pour le bouton "Plus" qui affiche deux cartes supplémentaires à chaque clic. L'index de la première carte à afficher est mis à jour en conséquence.
+
+Le code vérifie également si nous avons atteint la fin de la liste de cartes avant d'afficher deux cartes supplémentaires.
+
+
+
+
+
+User
+et si c'est quand je clique sur le boutonplus que ça me cr" les deux cartes
+ChatGPT
+Voici un exemple de code JavaScript qui crée deux nouvelles cartes chaque fois que vous cliquez sur un bouton "Plus". Vous pouvez l'adapter à vos besoins en modifiant les sélecteurs CSS pour correspondre à votre HTML.
+
+HTML:
+
+php
+Copy code
+<div class="card-container">
+<div class="card">Card 1</div>
+<div class="card">Card 2</div>
+</div>
+
+<button id="show-more">Plus</button>
+JavaScript:
+
+javascript
+Copy code
+const showMoreButton = document.getElementById("show-more");
+const cardContainer = document.querySelector(".card-container");
+
+// Ajouter un gestionnaire d'événements de clic pour le bouton "Plus"
+showMoreButton.addEventListener("click", function () {
+// Créer deux nouvelles cartes
+const newCard1 = document.createElement("div");
+newCard1.classList.add("card");
+newCard1.textContent = "New card 1";
+const newCard2 = document.createElement("div");
+newCard2.classList.add("card");
+newCard2.textContent = "New card 2";
+
+// Ajouter les nouvelles cartes au conteneur de cartes
+cardContainer.appendChild(newCard1);
+cardContainer.appendChild(newCard2);
+});
+Dans ce code, nous avons d'abord récupéré le bouton "Plus" et le conteneur de cartes avec des sélecteurs CSS.
+
+Ensuite, nous avons ajouté un gestionnaire d'événements de clic pour le bouton "Plus" qui crée deux nouvelles cartes à chaque clic. Nous avons créé les nouvelles cartes en utilisant la méthode createElement() de JavaScript et en ajoutant les classes et le texte appropriés.
+
+Enfin, nous avons ajouté les nouvelles cartes au conteneur de cartes en utilisant la méthode appendChild() de JavaScript. Les nouvelles cartes sont ajoutées à la fin du conteneur de cartes.
+
+
+
+
+
+User
+Je veux un code pour que à chaque fois que je fais une reservation on m'enregistre l'id , le nom,le numero et le mail de l'auteur dans une table 
+ChatGPT
+Voici un exemple de code qui vous montre comment enregistrer les détails d'une réservation (id de l'événement, nom, numéro de téléphone et e-mail de l'auteur) dans une table de base de données en utilisant Django.
+
+Tout d'abord, vous devez créer un modèle pour stocker les détails de la réservation dans votre fichier models.py :
+
+python
+Copy code
+from django.db import models
+from django.utils import timezone
+
+class Reservation(models.Model):
+event_id = models.IntegerField()
+name = models.CharField(max_length=100)
+phone_number = models.CharField(max_length=20)
+email = models.EmailField()
+date_created = models.DateTimeField(default=timezone.now)
+
+def __str__(self):
+    return self.name
+Ensuite, vous pouvez créer une vue pour traiter le formulaire de réservation et enregistrer les détails de la réservation dans la table Reservation. Voici un exemple de vue pour cela :
+
+python
+Copy code
+from django.shortcuts import render, redirect
+from .models import Event, Reservation
+from .forms import ReservationForm
+
+def reservation_view(request, event_id):
+event = Event.objects.get(id=event_id)
+if request.method == 'POST':
+    form = ReservationForm(request.POST)
+    if form.is_valid():
+        reservation = form.save(commit=False)
+        reservation.event_id = event_id
+        reservation.save()
+        return redirect('success')
+else:
+    form = ReservationForm()
+return render(request, 'reservation.html', {'form': form, 'event': event})
+Dans cette vue, nous récupérons l'objet d'événement à partir de l'ID d'événement fourni dans l'URL. Si la méthode de la requête est POST, nous validons le formulaire de réservation et enregistrons les détails de la réservation dans la table Reservation en utilisant la méthode save() du formulaire. Nous utilisons également le paramètre commit=False pour empêcher le formulaire d'enregistrer la réservation immédiatement dans la base de données et pour ajouter manuellement l'ID de l'événement avant de l'enregistrer. Enfin, nous redirigeons l'utilisateur vers une page de réussite.
+
+Vous devez également créer un formulaire pour collecter les détails de la réservation dans votre fichier forms.py :
+
+python
+Copy code
+from django import forms
+from .models import Reservation
+
+class ReservationForm(forms.ModelForm):
+class Meta:
+    model = Reservation
+    fields = ['name', 'phone_number', 'email']
+Enfin, vous pouvez créer une page de confirmation de réservation réussie pour rediriger l'utilisateur après la soumission du formulaire.
+
+
+/** carou **/ 
+
+
+{% comment %} 
+<section class="ftco-section" style='margin-top:-100px; padding-bottom:30px'>
+ <div class="container">
+	<div class="row">
+	    <div class="col-md-12">
+		<div class="slider-hero">
+			<div class="featured-carousel owl-carousel" >
+				<div class="item">
+			<div class="work" style='margin-bottom:50px;'>
+				<div class="img d-flex align-items-center justify-content-center">
+		<div class="text text-center">
+			<div class="container dd" style="height: 230px;margin-bottom:50px;">
+				<div class="row">
+					<div class="col-12 text-center text-white ddd" style="position:relative;">
+						<h6 class="text-white text-uppercase" style="margin: 20px;font-weight:bold;">Belle expérience</h6>
+						<p class="" style="color:#fff;font-size:23px;margin-right:80px;">Commencez vos week-ends avec un camping sauvage: -20% sur votre prochain sejour</p>
+					</div>
+
+				</div>
+
+			</div>
+			<a href="#gallary" class="btn btn-outline-light ms-3" >Nos Events</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="work"  >
+
+
+		<div class="img d-flex align-items-center justify-content-center" style='background-image: url('{% static './images/p.jpg' %}')' >
+					<div class="text text-center">
+						<div class="container dd" style="height: 230px;">
+
+			<div class="scroll-box">
+					<div  class="scroll-text">Pour vos Vacances réussis choisissez CampingBenin  </div>
+					<marquee behavior="" direction="">Bla bla bla bla bla bla bla bla bla bla serge serge serge 123 123 123 </marquee>
+				</div>
+			<div class="row" style='margin-bottom:50px;'>
+				<div class="col-12 col-lg-10 offset-lg-1 text-white ">
+					<h6 class="text-white text-uppercase" style="margin:20;font-weight:bold"></h6>
+					<p class="" style="color:#fff;font-size:23px;">Envie d'évasion ? Réserver votre  prochain week-end</p>
+					<!-- <a href="#services" class="btn btn-brand ms-3">Reserver</a> -->
+				</div>
+			</div>
+		</div>
+		<div class="blink bg-black">
+			<p style='background-color:red;border-radius:6px;margin-bottom:50px;'> 100 places Disponibles</p>
+		</div>
+					<a href="{% url 'reservation' %}" class="btn btn-outline-light ms-3">Reserver</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="work">
+	   <div class="img d-flex align-items-center justify-content-center">
+	  <div class="text text-center">
+		<div class="container dd" style="height: 230px;">
+			<div class="row">
+				<div class="col-12 text-center text-white ddd">
+					<h6 class="text-white text-uppercase" style='font-weight:bold;margin: 20;'>Pour l'avenir</h6>
+					<p class="" style="color:#fff;font-size:23px;margin-right:80px;">Commencez vos week-ends avec un camping sauvage: -20% sur votre prochain sejour</p>
+				</div>
+			</div>
+		</div>
+		<a href="#blog" class="btn btn-outline-light ms-3">Les Details</a>
+
+	  </div>
+	 </div>
+			</div>
+		</div>
+ </div>
+
+		<div class="my-5 text-center">
+	<ul class="thumbnail">
+		<li class="active img"><a href="#"><img src=" {% static './images/p.jpg' %} " alt="Image" class="img-fluid" style='height:100px;width:100px;'></a></li>
+		<li ><a href="#"><img src=" {% static './images/ama3.jpeg' %} " alt="Image" class="img-fluid" style='height:100px;width:100px;'></a></li>
+		<li><a href="#"><img src=" {% static './images/ama5.jpeg' %} " alt="Image" class="img-fluid" style='height:100px;width:100px;'></a></li>
+	</ul>
+	   </div>
+	  </div>
+	 </div>
+	</div>
+ </div>{% endcomment %}
+{% comment %} </section>  ftco-section{% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+               <kkiapay-widget 
+   sandbox="true"
+   amount="5"
+   key="821d754fbdad8f18284a3c36cb7dd090fa64890a"
+      {% comment %} amount="{% if reservation.payment_status == 'Effectué' %}{{ reservation.total_amount }}{% else %}{{ reservation.installment_amount }}{% endif %}" {% endcomment %}
+
+      position="center"
+      callback="http://127.0.0.1:9000/paiement_retour/"> Payer     
+                   </kkiapay-widget> 
+   {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   	{% comment %} 
+	.slide1 {
+			opacity: 0;
+			transform: translateY(50px);
+			transition: opacity 0.5s ease, transform 0.5s ease;
+		}
+		.slide1.active {
+		  opacity: 1;
+		  transform: translateY(0);
+		}
+		.slide1 h6,
+		.slide1 p {
+		  opacity: 0;
+		  transform: translateY(50px);
+		  transition: opacity 0.5s ease, transform 0.5s ease;
+		}
+		.slide1.active h6,
+		.slide1.active p {
+		  opacity: 1;
+		  transform: translateY(0);
+		  transition-delay: 0.3s;
+		}
+		.ddd {
+		width:500px;
+		opacity: 0;
+		transform: translateX(-150%);
+		animation: slideIn 2s ease-out forwards;
+		}
+		.dd{
+		margin: 20px;
+		background-color: rgba(18, 18, 48, 0.908);
+		border-radius: 20px;
+		}
+		.ddd h6, .ddd p {
+		opacity: 0;
+		transform: translateY(50px);
+		 animation: slideIns 5s ease-out 2s forwards;
+		 animation-iteration-count: infinite;
+		}
+		@keyframes slideIns {
+		  from {
+			opacity: 0;
+			transform: translateY(50px);
+		  }
+		  to {
+			opacity: 1;
+			transform: translateY(0);
+		  }
+		}
+		@keyframes slideIn {
+		  from {
+			opacity: 0;
+			transform: translateX(-150%);
+		  }
+		  to {
+			opacity: 1;
+			transform: translateX(0);
+		  }
+		}
+		.blink {
+			text-align: center;
+			display: inline-block;
+			border-radius:10px;
+			position:absolute;
+			margin-bottom:-60px;
+			right: 10px;
+		  }   
+		  .blink p {
+			display: inline-block;
+			margin: 0;
+			padding: 20px;
+			font-size: 14px;
+			color: #FFF;
+			animation: blink 1s infinite;
+		  }
+		  
+		  @keyframes blink {
+			50% {
+			  opacity: 0;
+			}
+		  }
+		  
+		.scroll-text  
+		   {
+			animation: marquee 20s linear infinite;
+			margin-top:80px;
+			font-size: 30px;
+			font-weight: 900px;
+			color: orange;
+		  }
+		  
+		  @keyframes marquee {
+			0% {
+			  transform: translateX(100%);
+			}
+			100% {
+			  transform: translateX(-100%);
+			}
+		  }	
+		  .card1 {
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			height:280px;
+			width:300px;
+			padding: 20px;
+			margin: 20px;
+			background-color:#fff;
+			position: absolute;
+			bottom: 40px;
+			{% comment %} left: 20px; {% endcomment %}
+			{% comment %} top: 20px; {% endcomment %}
+			right: 20px; 
+		  }
+	
+		  .card1-title {
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		  }
+	
+		  .card1-description {
+			font-size: 14px;
+			margin-bottom: 20px;
+		  }
+		  .card1-button {
+			display: block;
+			padding: 10px 20px;
+			margin-top:-10px; 
+			margin-left:50px; 
+			background-color: #faa200;
+			{% comment %} background-color: #007bff; {% endcomment %}
+			color: #000;
+			font-weight:bold;
+			text-align: center;
+			text-decoration: none;
+			border-radius: 5px;
+			width:150px;
+			height:40px;
+		  }
+	
+		  .card1-button:hover {
+			background-color: #001042;
+			{% comment %} background-color: #0069d9; {% endcomment %}
+		  }
+
+		  .typing-text {
+			{% comment %} display: inline-block; {% endcomment %}
+			overflow: hidden;
+			color:#fff;
+			margin-top:-200px;
+			font-size: 35px;
+			animation: typing 8s steps(30, end) infinite;
+		  }
+		  
+		  @keyframes typing {
+			from { width: 0; }
+			to { width: 100%; }
+		  }
+	#boutonClignotant {
+		background-color: #faa200;
+		color: white;
+		font-size: 14px;
+		padding: 10px 20px;
+		margin: 10px ;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		height:50px;
+		width:4cm;
+	}
+	
+@keyframes clignotement {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.bouton-clignotant {
+    animation: clignotement 2s infinite;
+}
+	 {% endcomment %}
+
+
+	 # @csrf_exempt
+	 # def create_reservation(request):
+	 #     if request.method == 'POST':
+	 #         client_name = request.POST.get('name')
+	 #         client_email = request.POST.get('mail')
+	 #         client_phone = request.POST.get('numeroTelephone')
+	 #         date = request.POST.get('date')
+	 #         party_size = request.POST.get('size')
+	 #         total_amount = request.POST.get('total')
+			 
+	 #           # Obtient l'heure actuelle
+	 #         current_time = datetime.now().time()  
+			
+	 
+	 #         reservation = Reservation(
+	 #             client_name=client_name,
+	 #             client_email=client_email,
+	 #             client_phone=client_phone,
+	 #             date=date,
+	 #             time=current_time,
+	 #             party_size=party_size,
+	 #             total_amount=total_amount
+	 #         )
+	 #         reservation.save()
+			 
+	 #         return JsonResponse({'status': 'success'})
+	 #     else:
+	 #         return JsonResponse({'status': 'error'})
+		 
+	 #     import requests
+	 
+	 # @csrf_exempt
+	 # def create_reservation(request):
+	 #     if request.method == 'POST':
+	 #         client_name = request.POST.get('name')
+	 #         client_email = request.POST.get('mail')
+	 #         client_phone = request.POST.get('numeroTelephone')
+	 #         date = request.POST.get('date')
+	 #         party_size = request.POST.get('size')
+	 #         total_amount = request.POST.get('total')
+			 
+	 #           # Obtient l'heure actuelle
+	 #         current_time = datetime.now().time()  
+			
+	 
+	 #         reservation = Reservation(
+	 #             client_name=client_name,
+	 #             client_email=client_email,
+	 #             client_phone=client_phone,
+	 #             date=date,
+	 #             time=current_time,
+	 #             party_size=party_size,
+	 #             total_amount=total_amount
+	 #         )
+	 #         reservation.save()
+	 
+	 #         return redirect(redirec)
+	 #     else:
+	 #         return JsonResponse({'status': 'error'})
+	  
+	 
+	 # def create_reservation(request):
+	 #   if request.method == 'POST':
+	 #     client_name = request.POST.get('name')
+	 #     client_email = request.POST.get('mail')
+	 #     client_phone = request.POST.get('numeroTelephone')
+	 #     date = request.POST.get('date')
+	 #     party_size = request.POST.get('size')
+	 #     total_amount = request.POST.get('total')
+		 
+	 #     # Obtient l'heure actuelle
+	 #     current_time = datetime.now().time()  
+	 
+	 #     reservation = Reservation(
+	 #       client_name=client_name,
+	 #       client_email=client_email,
+	 #       client_phone=client_phone,
+	 #       date=date,
+	 #       time=current_time,
+	 #       party_size=party_size,
+	 #       total_amount=total_amount
+	 #     )
+	 #     reservation.save()
+	 #     secret_code= 'sk_206cbbe877ad89bc67e923978abafd1f27a50979a1a3d14c859d183fb9bfd3a1'
+	 #     try:
+	 #       api = kkiapay.Api(secret_code)
+	 #       payment_request = api.request_payment(amount=total_amount, description='Paiement reservation', currency='XOF', metadata='', callback_url='http://127.0.0.1:9000/paiement_retour/')
+			   
+	 #     except Exception as e:
+	 #       print('Error: %s' % str(e))
+		   
+	 #     if payment_request is not None:
+	 #         return HttpResponseRedirect(payment_request.payment_url)
+	 
+	 #   else:
+	 #     return JsonResponse({'status': 'error'})
+	 
+	 
+	 # def create_reservation(request):
+	 #     if request.method == 'POST':
+	 #         client_name = request.POST.get('name')
+	 #         client_email = request.POST.get('mail')
+	 #         client_phone = request.POST.get('numeroTelephone')
+	 #         date = request.POST.get('date')
+	 #         party_size = request.POST.get('size')
+	 #         total_amount = request.POST.get('total')
+	 #         installments = request.POST.get('installments')
+			 
+	 #         # Obtient l'heure actuelle
+	 #         current_time = datetime.now().time()  
+		 
+	 #         reservation = Reservation(
+	 #             client_name=client_name,
+	 #             client_email=client_email,
+	 #             client_phone=client_phone,
+	 #             date=date,
+	 #             time=current_time,
+	 #             party_size=party_size,
+	 #             total_amount=total_amount,
+	 #             installements=installements
+	 #         )
+	 #         reservation.save()
+			 
+	 #         # Redirige l'utilisateur vers la page de récapitulatif de réservation
+	 #         return redirect('confirmation_reservation', reservation_id=reservation.id)
+			 
+	 #     else:
+	 #         return JsonResponse({'status': 'error'})
+	 
+
+
+
+
+
+
+
+
+	 
+def paiement_retour(request):
+payment_id = request.GET.get('payment_id')
+transaction_id = request.GET.get('transaction_id')
+status = request.GET.get('status')
+
+if transaction_id is None  :
+	return HttpResponseBadRequest('Requête invalide')
+
+if status == 'PAID':
+	# Mettre à jour l'état de la réservation en fonction de l'ID de paiement
+	reservation = Reservation.objects.get(payment_id=payment_id)
+	reservation.status = 'PAID'
+	reservation.save()
+	# Rediriger l'utilisateur vers une page de confirmation de paiement réussi
+	return redirect('confirmation_paiement')
+else:
+	# Rediriger l'utilisateur vers une page d'erreur de paiement
+	return redirect('erreur_paiement')
+
+
+
+
+
+
+
+
+
+
+	<!-- Inclure jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Ajouter du code JavaScript -->
+<script>
+$(document).ready(function() {
+  // Cibler le formulaire d'envoi de témoignage
+  var form = $('#testimonyForm');
+  
+  // Capter l'événement de soumission du formulaire
+  form.on('submit', function(event) {
+    event.preventDefault(); // Empêcher la soumission normale du formulaire
+
+    // Envoyer la requête AJAX pour enregistrer le témoignage
+    $.ajax({
+      url: form.attr('action'),  // URL d'action du formulaire
+      type: form.attr('method'), // Méthode d'envoi du formulaire (POST)
+      data: form.serialize(),    // Données du formulaire sérialisées
+      success: function(response) {
+        // Afficher le popup de confirmation
+        alert('Le témoignage a été reçu !');
+
+        // Rediriger vers la page d'accueil après la confirmation
+        window.location.href = '/'; // Modifier ici l'URL de votre page d'accueil
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        // En cas d'erreur, afficher un message d'erreur
+        alert('Une erreur s\'est produite. Veuillez réessayer.');
+      }
+    });
+  });
+});
+</script>
+
+
+
+
+from_email = 'elechoserge@gmail.com'
+to_email = reservation.client_email  # Assurez-vous d'avoir l'email de réservation disponible
+subject = 'Confirmation de réservation'
+
+msg = MIMEMultipart()
+msg['From'] = from_email
+msg['To'] = to_email
+msg['Subject'] = subject
+
+# Corps du message
+body = 'Votre réservation a été confirmée. Ci-joint le code QR pour accéder à l\'événement.'
+msg.attach(MIMEText(body, 'plain'))
+
+# Pièce jointe : code QR
+qr_attachment = MIMEImage(qr_image_bytes.read(), name='qr_code.png')
+msg.attach(qr_attachment)
+
+# Envoyer l'email via SMTP
+smtp_server = 'smtp.gmail.com'
+smtp_port = 587
+smtp_username = 'elechoserge@gmail.com'
+smtp_password = 'uggsylabjrceckag'
+
+with smtplib.SMTP(smtp_server, smtp_port) as server:
+	server.starttls()
+	server.login(smtp_username, smtp_password)
+	server.sendmail(from_email, to_email, msg.as_string())
+	
+
+
+
+ def paiement_retour(request, reservation_id):
+    transaction_id = request.GET.get('transaction_id')
+    k = Kkiapay('25ffe3b0e4f911ed9cc1f1b54a528cb5', 'tpk_26000ac1e4f911ed9cc1f1b54a528cb5', 'tsk_26000ac2e4f911ed9cc1f1b54a528cb5', sandbox="True")
+    transaction = k.verify_transaction(transaction_id)
+    
+    reservation = Reservation.objects.get(pk=reservation_id)
+    if transaction['status'] == 'SUCCESS':
+        qr_content = f"Event ID:\nReservation ID: {reservation.id}\nOther info..."
+        # Générer le code QR
+        qr = qrcode.make(qr_content)
+        # Convertir l'image du code QR en bytes
+        qr_image_bytes = BytesIO()
+        qr.save(qr_image_bytes, format='PNG')
+        qr_image_bytes.seek(0)
+        # Récupérer la réservation en utilisant l'ID passé via l'URL
+        # Créer une instance de ReservationConfirmation et l'enregistrer dans la base de données
+        confirmation = ReservationConfirmation.objects.create(
+            reservation=reservation,
+            confirmation_number=transaction_id,
+            confirmation_date=timezone.now(),
+            # kkia_transaction_code=transaction['performed_at'],
+            status='SUCCESS'
+        )
+        confirmation.save()
+        # Envoyer l'email avec le code QR en pièce jointe 
+        return redirect('index')
+    else:
+        # Récupérer la réservation en utilisant l'ID passé via l'URL
+        reservation = Reservation.objects.get(pk=reservation_id)
+
+        # Créer une instance de ReservationConfirmation et l'enregistrer dans la base de données
+        confirmation = ReservationConfirmation.objects.create(
+            reservation=reservation,
+            confirmation_number= transaction_id,
+            confirmation_date=timezone.now(),
+            # kkia_transaction_code=transaction['performed_at'],
+            status='FAILURE'
+        )
+        confirmation.save()
+
+        return redirect('erreur_paiement')
+
+
+		from django.shortcuts import render
+from django.http import HttpResponse
+from fpdf import FPDF
+import qrcode
+
+def generate_pdf(reservation, qr_content):
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Ajouter les informations de la réservation au PDF
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, f"Reservation ID: {reservation.id}", ln=True)
+    
+    # Ajouter le code QR au PDF
+    qr = qrcode.make(qr_content)
+    qr.save("qr_temp.png")
+    pdf.image("qr_temp.png", x=10, y=20, w=50)
+    
+    # Enregistrer le PDF dans une variable et supprimer le fichier temporaire
+    pdf_output = pdf.output(dest="S").encode("latin1")
+    pdf.close()
+    return 
+	
+
+
+	
+
+
+
+
+
+
+
+
+	
+# def telecharger_pdf(request, reservation_id):
+#     reservation = get_object_or_404(Reservation, pk=reservation_id)
+    
+#     # Générer un numéro de tente aléatoire et consécutif (4 caractères)
+#     tente_number = f"{randint(1, 9999):04}"
+    
+#     # Générer le contenu du PDF en utilisant ReportLab
+#     pdf_buffer = BytesIO()
+#     doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+    
+#     # Générer le contenu du code QR avec les informations de la réservation
+#     qr_content = f"Réservation ID: {reservation.id}\nTente: {tente_number}\nOther info..."
+    
+#     # Générer le code QR
+#     qr = qrcode.make(qr_content)
+#     qr_image = qr.get_image()
+    
+#     # Convertir l'image du code QR en format BMP
+#     qr_bmp_buffer = BytesIO()
+#     qr_image.save(qr_bmp_buffer, format='BMP')
+#     qr_bmp_buffer.seek(0)
+    
+#     # Créer une liste pour contenir les éléments de mise en page
+#     elements = []
+    
+#     # Insérer l'image du logo dans la première colonne
+#     # logo = Image("./static/images/CAMPING2023.png", width=100, height=100)
+#     logo = Image(settings.STATIC_ROOT + '/images/CAMPING2023.png', width=100, height=100)
+
+#     # image_path = os.path.join(settings.STATIC_ROOT, 'images', 'CAMPING2023.png')
+#     # logo = Image(image_path, width=100, height=100)
+
+#     elements.append(logo)
+    
+#     # Créer une table pour la deuxième colonne
+#     data = [
+#         [qr_image, 'Logo', 'Texte'],
+#         ['Label 1', 'Label 2', ''],
+#     ]
+#     table = Table(data, colWidths=[100, 100, 100])
+    
+#     # Appliquer un style à la table
+#     table.setStyle(TableStyle([
+#         ('BACKGROUND', (0, 0), (2, 0), colors.blue),
+#         ('TEXTCOLOR', (0, 0), (2, 0), colors.white),
+#         ('ALIGN', (0, 0), (2, 0), 'CENTER'),
+#         ('BOTTOMPADDING', (0, 0), (2, 0), 12),
+#         ('BOTTOMPADDING', (0, 1), (2, 1), 6),
+#     ]))
+    
+#     elements.append(table)
+    
+#     # Ajoutez d'autres informations du ticket ici...
+    
+#     doc.build(elements)
+
+#     pdf_buffer.seek(0)
+    
+#     # Créer une réponse HTTP avec le PDF téléchargeable
+#     response = HttpResponse(pdf_buffer.read(), content_type='application/pdf')
+#     response['Content-Disposition'] = f'attachment; filename="ticket_reservation_{reservation.id}.pdf"'
+#     return response
+
+
+# class TicketPDFView(PDFTemplateView):
+#     template_name = 'Campingbenin/ticket_template.html'
+#     filename = 'ticket.pdf'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         # Ajoutez les informations de contexte ici, par exemple : context['reservation'] = ...
+#         return context
+
+
+# class ReservationPDFView(PDFTemplateView):
+#     template_name = 'Campingbenin/ticket_template.html'
+#     filename = 'ticket.pdf'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         reservation_id = self.kwargs.get('reservation_id')
+#         reservation = Reservation.objects.get(pk=reservation_id)
+#         context['reservation'] = reservation
+#         return context
+
+
+# def reservation_passes(request, reservation_id):
+    reservation = Reservation.objects.get(pk=reservation_id)
+    context = {'reservation': reservation}
+    return render(request, 'Campingbenin/reservation_pass.html', context)

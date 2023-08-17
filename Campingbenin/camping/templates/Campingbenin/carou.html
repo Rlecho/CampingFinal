@@ -1,0 +1,386 @@
+{% extends 'Campingbenin/base2.html' %}
+ {% load static %}
+	{% block style %}
+	<style>
+		.carousel-container {
+			width: 92%;
+			margin: 20px auto;
+		  }
+		  
+		  .work {
+			position: relative;
+		  }
+		  
+		  .img {
+			position: relative;
+			transition: transform 0.3s ease;
+		  }
+		  
+		  .img:hover {
+			transform: scale(1.1);
+		  }
+		  
+		  .content {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			color: #fff;
+			opacity: 0;
+			transform: translateY(20px);
+			transition: opacity 0.3s, transform 0.3s;
+		  }
+		  
+		  .card-title {
+			font-size: 24px;
+		  }
+		  
+		  .card-description {
+			font-size: 16px;
+		  }
+		  
+		  .card-button {
+			display: inline-block;
+			margin-top: 10px;
+			padding: 10px 20px;
+			background-color: #007bff;
+			color: #fff;
+			text-decoration: none;
+			opacity: 0;
+			transform: translateY(20px);
+			transition: opacity 0.3s, transform 0.3s;
+		  }
+		  
+		  .carousel-container:hover .content {
+			opacity: 1;
+			transform: translateY(0);
+		  }
+		  
+		  .carousel-container:hover .card-button {
+			opacity: 1;
+			transform: translateY(0);
+		  }
+		  
+		  .carousel-marquee {
+			margin-top: -320px;
+			font-size: 20px;
+			font-weight: bold;
+			color: #ffa500;
+		  }
+
+		  .slide1 {
+			opacity: 0;
+			transform: translateY(50px);
+			transition: opacity 0.5s ease, transform 0.5s ease;
+		}
+		.slide1.active {
+		  opacity: 1;
+		  transform: translateY(0);
+		}
+		.slide1 h6,
+		.slide1 p {
+		  opacity: 0;
+		  transform: translateY(50px);
+		  transition: opacity 0.5s ease, transform 0.5s ease;
+		}
+		.slide1.active h6,
+		.slide1.active p {
+		  opacity: 1;
+		  transform: translateY(0);
+		  transition-delay: 0.3s;
+		}
+		.ddd {
+		width:500px;
+		opacity: 0;
+		transform: translateX(-150%);
+		animation: slideIn 2s ease-out forwards;
+		}
+		.dd{
+		margin: 20px;
+		background-color: rgba(18, 18, 48, 0.908);
+		border-radius: 20px;
+		}
+		.ddd h6, .ddd p {
+		opacity: 0;
+		transform: translateY(50px);
+		 animation: slideIns 5s ease-out 2s forwards;
+		 animation-iteration-count: infinite;
+		}
+		@keyframes slideIns {
+		  from {
+			opacity: 0;
+			transform: translateY(50px);
+		  }
+		  to {
+			opacity: 1;
+			transform: translateY(0);
+		  }
+		}
+		@keyframes slideIn {
+		  from {
+			opacity: 0;
+			transform: translateX(-150%);
+		  }
+		  to {
+			opacity: 1;
+			transform: translateX(0);
+		  }
+		}
+		.blink {
+			text-align: center;
+			display: inline-block;
+			border-radius:10px;
+			position:absolute;
+			margin-bottom:-60px;
+			right: 10px;
+		  }   
+		  .blink p {
+			display: inline-block;
+			margin: 0;
+			padding: 20px;
+			font-size: 14px;
+			color: #FFF;
+			animation: blink 1s infinite;
+		  }		  
+		  @keyframes blink {
+			50% {
+			  opacity: 0;
+			}
+		  }		  
+		.scroll-text  
+		   {
+			animation: marquee 20s linear infinite;
+			margin-top:80px;
+			font-size: 30px;
+			font-weight: 900px;
+			color: orange;
+		  }  
+		  @keyframes marquee {
+			0% {
+			  transform: translateX(100%);
+			}
+			100% {
+			  transform: translateX(-100%);
+			}
+		  }	
+		  /* Styles pour les écrans de petite taille (mode mobile) */
+@media (max-width: 767px) {
+	.card1 {
+	  position: static;
+	  bottom: auto;
+	  right: auto;
+	  margin: 20px auto; /* Centrer la carte horizontalement */
+	}
+	.card1-button {
+	  margin-left: 0; /* Réinitialiser la marge pour centrer le bouton */
+	}
+	/* Ajuster les tailles de police pour une meilleure lisibilité en mode mobile */
+	.card1-title {
+	  font-size: 20px;
+	}
+	.card4-title {
+	  font-size: 60px;
+	}
+	.card1-description {
+	  font-size: 12px;
+	}
+	.card4-description {
+	  font-size: 18px;
+	}
+  }
+		   .card1 {
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			height:280px;
+			width:300px;
+			padding: 20px;
+			margin: 20px;
+			background-color:#fff;
+			position: absolute;
+			bottom: 40px;
+			right: 20px; 
+		  }
+	
+		  .card1-title {
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 10px;
+			margin-top: auto;
+		  }
+		  .card4-title {
+			font-size: 94px;
+			font-weight: bold;
+			margin-bottom: 10px;
+			margin-top: auto;
+		  }
+	
+		  .card1-description {
+			font-size: 14px;
+			margin-bottom: 20px;
+		  }
+		  .card4-description {
+			font-size: 24px;
+			margin-bottom: 20px;
+		  }
+		  .card1-button {
+			display: block;
+			padding: 10px 20px;
+			margin-top:-10px; 
+			margin-left:50px; 
+			background-color: #faa200;
+			color: #000;
+			font-weight:bold;
+			text-align: center;
+			text-decoration: none;
+			border-radius: 5px;
+			width:150px;
+			height:40px;
+		  }
+	
+		  .card1-button:hover {
+			background-color: #001042;
+			{% comment %} background-color: #0069d9; {% endcomment %}
+		  } 
+
+		  .typing-text {
+			overflow: hidden;
+			color:#fff;
+			margin-top:-200px;
+			font-size: 35px;
+			animation: typing 8s steps(30, end) infinite;
+		  }
+		  
+		  @keyframes typing {
+			from { width: 0; }
+			to { width: 100%; }
+		  }
+	
+@keyframes clignotement {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.bouton-clignotant {
+    animation: clignotement 2s infinite;
+}
+
+.card5 {
+	position: absolute;
+	bottom: 40px;
+	right: 20px;
+	height: 280px;
+	width: 300px;
+	padding: 20px;
+	margin: 20px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+  }
+  
+  #boutonClignotant {
+	padding: 5px;
+	height: 0.8cm;
+	background-color: #f44336;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 14px;
+	margin-top:auto;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: 0;
+  }
+  
+  .card5-title {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-top: 10px;
+  }
+  
+  .card5-description {
+	font-size: 14px;
+	margin-bottom: 10px;
+  }
+  
+  .card5-button {
+	padding: 10px 20px;
+	background-color: #4caf50;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 16px;
+	text-decoration: none;
+  }
+	</style>
+	{% endblock style %}
+
+	{% block content %}
+
+
+ <section class="" style="width:92%; margin-right:auto;margin-left:auto;margin-top:20px;" > 
+		<div class="row" style="">
+			<div class="col-md-12" style="">
+				<div class="slider-hero" >
+					<div class="featured-carousel owl-carousel" style='margin-top:90px;'>
+						<div class="item"> 
+							<div class="work bg-image" style="">
+								<div class="img d-flex align-items-center justify-content-center" style="background-image: url({% static './images/ima_36.jpg' %});">
+									
+									<div class="card1" style=''>
+										<h1 class="card1-title" style="color:#000;">Belle experience</h1>
+										<p class="card1-description" style="color:#000;">Avec un CampingBenin vos week-ends sont inoubliable: -20% sur votre prochain sejour</p>
+										<a href="#gallary" class="card1-button" style="margin-left:0px;">Passé vécu</a>
+									  </div>
+								</div> 
+							</div>
+						</div>
+						<div class="item">
+							<div class="work">
+								<div class="img d-flex align-items-center justify-content-center mask" style="background-image: url({% static './images/ima_3.jpg' %});height:;">
+									
+									<marquee style="margin-top:-320px;font-size:30px;font-weight:bold;color:#ffa500;">Réussir vos vacances et weekend avec CampingBenin</marquee>
+									<div class="card5">
+										<label id="boutonClignotant">30 places disponibles</label>
+										<h6 class="card5-title">Camping Tchetti, Savalou</h6>
+										<p class="card5-description">Le camping à Savalou offre une expérience de voyage unique qui permet de se rapprocher de la nature tout en découvrant les traditions locales.</p>
+										<a href="{% url 'reservation' %}" class="card1-button">Reserver</a>
+									  </div>
+								</div>
+							</div>
+						</div> <div class="item">
+							<div class="work">
+								<div class="img d-flex align-items-center justify-content-center" style="background-image: url({% static './images/ima_17.jpg' %});height:;background-size:cover;">
+										<div class="card1">
+										<h5 class="card1-title">Dans un futur proche</h5>
+										<p class="card1-description">Préparez-vous à vivre une expérience de camping inoubliable!</p>
+										<a href="#events" class="card1-button">Details</a>
+									  </div>
+								</div>
+							</div>
+						</div>
+					</div> 
+					<div class="my-5 text-center" >
+			  <ul class="thumbnail" >
+				<li class="active img"><a href="#"><img src="{% static './images/ima_36.jpg' %}" alt="Image" class="img-fluid" style='height:80px;width:80px;margin-top:-10px;'></a></li>
+				<li><a href="#" class=""><img src="{% static './images/ima_3.jpg' %}" alt="Image" class="img-fluid" style='height:80px;width:80px;margin-top:-10px;'></a></li>
+				<li><a href="#"><img src="{% static './images/ima_17.jpg' %}" alt="Image" class="img-fluid" style='height:80px;width:80px;margin-top:-10px;'></a></li>
+			  </ul>
+			</div>
+				</div>
+			</div>
+		</div>
+   </section> 
+	{% endblock content %}
+
+	{% block script %}
+	<script>
+		$(document).ready(function(){
+			setInterval(function(){
+			  $(".featured-carousel").find(".owl-next").trigger("click");
+			},15000);
+		  });
+
+
+	</script>
+	{% endblock script %}

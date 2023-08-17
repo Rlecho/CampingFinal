@@ -1,0 +1,141 @@
+{% extends 'Campingbenin/base.html' %}
+{% load static %}
+{% block style %}  
+  <style>
+
+/* Sidebar */
+.sidebar {
+	background-color: #011142;
+	{% comment %} background-color: #ff9800; {% endcomment %}
+	color: #fff;
+	position: fixed;
+	top: 60px;
+	left: 0;
+	bottom: 0;
+	width: 200px;
+	padding: 20px;
+	transition: all .3s;
+}
+
+.sidebar-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.sidebar-logo a {
+	color: #fff;
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.sidebar-links li {
+	margin-bottom: 10px;
+}
+
+.sidebar-links a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 18px;
+}
+
+.sidebar-links a.active {
+	font-weight: bold;
+}
+.main-content
+{
+  margin-left:230px;
+}
+.si{
+  margin-left:-30px;
+}
+.sii{
+  width:100px;
+}
+.se {
+  width:200px;
+}
+.sii :focus{
+  background: red;
+}
+
+  </style>
+{% endblock style %}  
+{% block content %}  
+
+	<!-- Navbar -->
+  <nav class="navbar navbar-expand-lg" id="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html" id="logo"> <img src="{% static 'images/log.PNG' %}" alt="" style="height: 50px; width: 70px;" ></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span><i class="fa-solid fa-bars"></i></span>
+      </button> 
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <center>
+        <ul class="navbar-nav me-auto " >
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#book">Nos Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#gallary">Gallerie</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">A propos</a>
+          </li>
+        </ul>
+      </center>
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" placeholder="Search">
+          <button class="btn btn-primary" type="button">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+	<!-- Sidebar -->
+
+	<div class="container">
+	<div class="sidebar">
+		<div class="sidebar-container">
+			<div class="sidebar-logo">
+			<center>	<a href="#" style="text-decoration:none;">Main</a></center>	
+			</div>
+      <ul class="navbar-nav  si">
+        <li class="nav-item sii">
+          <a class="nav-link  active" href="index.html" style="width:200px; font-size:16px;padding-left:30px;">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#book" style="width:200px; font-size:16px;padding-left:30px;">Réservations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#services" style="width:200px; font-size:16px;padding-left:30px;">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#services" style="width:200px; font-size:16px;padding-left:30px;">Paramètres</a>
+        </li>
+      </ul>
+		</div>
+	</div>
+	</div>
+
+	<!-- Contenu principal -->
+	<div class="main-content">
+		<h1>Bienvenue sur le tableau de bord</h1>
+		<p>Vous pouvez visualiser les statistiques et gérer les réservations et les clients à partir de la barre latérale.</p>
+	</div>
+
+{% endblock content %}  
+{% block script %}  
+
+<script>
+   
+</script>
+{% endblock script %}  
+

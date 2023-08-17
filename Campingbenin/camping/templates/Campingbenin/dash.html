@@ -1,0 +1,210 @@
+Pour intégrer le système de paiement Kkiapay dans votre formulaire de réservation, vous pouvez suivre les étapes ci-dessous :
+
+Assurez-vous d'avoir installé la bibliothèque Kkiapay dans votre projet Django en exécutant la commande suivante dans votre environnement virtuel :
+
+Copy code
+pip install kkiapay
+Importez les classes et fonctions nécessaires de la bibliothèque Kkiapay dans votre fichier de vue Django :
+
+python
+Copy code
+from kkiapay import Kkiapay
+from kkiapay.exceptions import KkiapayException
+Modifiez votre vue create_reservation pour inclure le processus de paiement avec Kkiapay :
+
+python
+Copy code
+def create_reservation(request):
+    if request.method == 'POST':
+        client_name = request.POST.get('name')
+        client_email = request.POST.get('mail')
+        client_phone = request.POST.get('numeroTelephone')
+        date = request.POST.get('date')
+        party_size = request.POST.get('size')
+        total_amount = request.POST.get('total')
+        
+        # Obtient l'heure actuelle
+        current_time = datetime.now().time()  
+       
+        reservation = Reservation(
+            client_name=client_name,
+            client_email=client_email,
+            client_phone=client_phone,
+            date=date,
+            time=current_time,
+            party_size=party_size,
+            total_amount=total_amount
+        )
+        reservation.save()
+        
+        # Crée une instance de la classe Kkiapay avec vos informations d'identification
+        kkiapay = Kkiapay(api_key='VOTRE_CLE_API_KKIAPAY', api_secret='VOTRE_SECRET_API_KKIAPAY')
+        
+        try:
+            # Crée une transaction de paiement avec Kkiapay
+            transaction = kkiapay.create_transaction(
+                amount=total_amount,
+                description='Réservation de service',
+                metadata={
+                    'client_name': client_name,
+                    'client_email': client_email,
+                    'client_phone': client_phone,
+                    'date': date,
+                    'party_size': party_size
+                },
+                callback_url='https://votre-site.com/paiement-callback'  # URL de rappel pour la gestion du paiement
+            )
+            
+            # Récupère l'URL de paiement Kkiapay à partir de la transaction
+            payment_url = transaction.payment_url
+            
+            # Redirige l'utilisateur vers la page de paiement Kkiapay
+            return redirect(payment_url)
+            
+        except KkiapayException as e:
+            # Gère les erreurs de paiement avec Kkiapay
+            return render(request, 'error.html', {'error_message': str(e)})
+        
+    else:
+        return JsonResponse({'status': 'error'})
+Créez une vue de rappel (paiement_callback) pour traiter la réponse de Kkiapay après le paiement :
+
+python
+Copy code
+def paiement_callback(request):
+    # Récupère les paramètres de réponse de Kkiapay depuis la requête POST ou GET
+    transaction_id = request.POST.get('transaction_id', request.GET.get('transaction_id'))
+    status = request.POST.get('status', request.GET.get('status'))
+    
+    # Vérifie si le paiement a réussi
+    if status == 'completed':
+        # Mettez ici votre logique pour gérer le paiement réussi
+        return render(request, 'success.html')
+    else:
+        # Mettez ici votre logique pour gérer le paiement échoué
+        return render(request, 'error.html')
+Assurez-vous de créer les templates 'success.html' et 'error.html' correspondants pour afficher les messages de succès ou d'erreur aux utilisateurs après le paiement.
+
+Assurez-vous d'ajuster les URL et les informations d'identification (VOTRE_CLE_API_KKIAPAY et VOTRE_SECRET_API_KKIAPAY) dans le code avec les valeurs appropriées pour votre compte Kkiapay.
+
+Cela devrait vous permettre d'intégrer le système de paiement Kkiapay dans votre formulaire de réservation, où les utilisateurs seront redirigés vers la page de paiement Kkiapay après avoir soumis le formulaire. Une fois le paiement effectué avec succès, ils seront renvoyés vers la page de succès définie, sinon vers la page d'erreur.
+
+
+
+
+
+
+
+
+
+
+
+
+   
+# def create_reservation(request):
+#     if request.method == 'POST':
+#         client_name = request.POST.get('name')
+#         client_email = request.POST.get('mail')
+#         client_phone = request.POST.get('numeroTelephone')
+#         date = request.POST.get('date')
+#         party_size = request.POST.get('size')
+#         total_amount = request.POST.get('total')
+        
+#         # Obtient l'heure actuelle
+#         current_time = datetime.now().time()  
+       
+#         reservation = Reservation(
+#             client_name=client_name,
+#             client_email=client_email,
+#             client_phone=client_phone,
+#             date=date,
+#             time=current_time,
+#             party_size=party_size,
+#             total_amount=total_amount
+#         )
+#         reservation.save()
+        
+#         # Crée une instance de la classe Kkiapay avec vos informations d'identification
+#         kkiapay = Kkiapay(api_key='VOTRE_CLE_API_KKIAPAY', api_secret='VOTRE_SECRET_API_KKIAPAY')
+        
+#         try:
+#             # Crée une transaction de paiement avec Kkiapay
+#             transaction = kkiapay.create_transaction(
+#                 amount=total_amount,
+#                 description='Réservation de service',
+#                 metadata={
+#                     'client_name': client_name,
+#                     'client_email': client_email,
+#                     'client_phone': client_phone,
+#                     'date': date,
+#                     'party_size': party_size
+#                 },
+#                 callback_url='https://votre-site.com/paiement-callback'  # URL de rappel pour la gestion du paiement
+#             )
+            
+#             # Récupère l'URL de paiement Kkiapay à partir de la transaction
+#             payment_url = transaction.payment_url
+            
+#             # Redirige l'utilisateur vers la page de paiement Kkiapay
+#             return redirect(payment_url)
+            
+#         except KkiapayException as e:
+#             # Gère les erreurs de paiement avec Kkiapay
+#             return render(request, 'error.html', {'error_message': str(e)})
+        
+#     else:
+#         return JsonResponse({'status': 'error'})
+
+    
+# @csrf_exempt
+# def create_reservation(request):
+#     # if request.method == 'POST':
+#         # Récupérer les données du formulaire et enregistrer la réservation dans la base de données
+#     if request.method == 'POST':
+#         client_name = request.POST.get('name')
+#         client_email = request.POST.get('mail')
+#         client_phone = request.POST.get('numeroTelephone')
+#         date = request.POST.get('date')
+#         party_size = request.POST.get('size')
+#         total_amount = request.POST.get('total')
+#           # Obtient l'heure actuelle
+#         current_time = datetime.now().time()  
+#         # Effectuer une requête à l'API KkiaPay pour créer le paiement
+#         payload = {
+#             'name': client_name,
+#             'phone': client_phone,
+#             'email': client_email,
+#             'date': date,
+#             'party_size': party_size,
+#             'total_amount': total_amount
+#         }
+#         response = requests.post('https://api.kkaipy.com/v1/payments', data=payload)
+
+#         if response.status_code == 200:
+#             # Le paiement a été créé avec succès
+#             kkia_transaction_code = response.json().get('transaction_code')
+
+#             # Créer une réservation confirmée avec le code de transaction KkiaPay
+#             reservation = Reservation(client_name=client_name, client_phone=client_phone, client_email=client_email, date=date,time=current_time, party_size=party_size, total_amount=total_amount)
+#             reservation.save()
+
+#             confirmation = ReservationConfirmation(reservation=reservation, confirmation_number=reservation.id,  confirmation_date=current_time,
+#                                                    kkia_transaction_code=kkia_transaction_code)
+#             confirmation.save()
+#         else:
+#             return JsonResponse({'status': 'error', 'message': 'Erreur lors de la génération du lien de paiement'})
+#     else:
+#         return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée'})
+    
+#     from kkiapay import KkiapayWidget
+
+# def create_reservation(request):
+#     if request.method == 'POST':
+#         # Get the payment data from the request
+#         payment_data = request.POST.get('payment_data')
+
+#         # Create the KkiapayWidget
+#         widget = KkiapayWidget(payment_data)
+
+#         # Render the widget
+#         return render(request, 'reservation.html', {'widget': widget})
